@@ -1,0 +1,911 @@
+<!doctype html>
+<html ng-app="demo">
+<head>
+    <title>tamil Sandhai</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="hello.js"></script>
+    <meta name="description"
+          content="jQuery Data Grid with custom cell editors. The example shows how to create cell editors"/>
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css"/>
+    <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.edit.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxslider.js"></script>
+    <script type="text/javascript" src="scripts/demos.js"></script>
+    <script type="text/javascript" src="generatedata.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+
+            var favData = new Array();
+            var roww;
+
+            var tempfav = [];
+
+            jQuery.ajax({
+                type: "GET",
+                url: "http://localhost:8080/getFavorites",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data, status, jqXHR) {
+                    favData = data;
+                    console.log(data);
+                    console.log(favData);
+
+                },
+                error: function (jqXHR, status) {
+                    // error handler
+                }
+            });
+
+            for (var i = 0; i < favData.length; i++) {
+                console.log("in fav ite " + i);
+                //data[i] = favData[i];
+                tempfav[i] = new Object();
+            }
+
+
+            var source =
+            {
+                localdata: favData,
+                datatype: "array",
+                updaterow: function (rowid, rowdata, commit) {
+                    console.log("updaterow" + rowdata);
+                    roww = rowdata;
+                    // synchronize with the server - send update command
+                    // call commit with parameter true if the synchronization with the server is successful
+                    // and with parameter false if the synchronization failder.
+                    commit(true);
+                },
+                datafields: [
+                    {name: 'name', type: 'string'},
+                    {name: 'dailyClose', type: 'string'},
+                    {name: 'weeklyClose', type: 'string'}
+                ]
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            // initialize jqxGrid
+            $("#jqxgrid").jqxGrid(
+                    {
+                        width: 450,
+                        source: dataAdapter,
+                        editable: true,
+                        selectionmode: 'singlerow',
+                        editmode: 'selectedrow',
+                        columns: [
+                            {text: 'First Name', columntype: 'textbox', datafield: 'name', width: 80},
+                            {text: 'Last Name', datafield: 'dailyClose', columntype: 'textbox', width: 80},
+                            {text: 'Product', columntype: 'dropdownlist', datafield: 'weeklyClose', width: 195}
+                        ]
+                    });
+
+            // events
+            var rowValues = "";
+            $("#jqxgrid").on('cellendedit', function (event) {
+                console.log("rowwww   " + roww[0]);
+                if (event.args.datafield === "name") {
+                    tempfav[event.args.rowindex].name = event.args.value;
+                    tempfav[event.args.rowindex].oldName = event.args.oldvalue;
+                }
+                else if (event.args.datafield === "dailyClose") {
+                    tempfav[event.args.rowindex].dailyClose = event.args.value;
+                }
+                else if (event.args.datafield === "weeklyClose") {
+                    tempfav[event.args.rowindex].weeklyClose = event.args.value;
+                }
+                console.log(JSON.stringify(tempfav[event.args.rowindex]));
+
+                if (Object.keys(tempfav[event.args.rowindex]).length == 4) {
+                    console.log("updating data");
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "http://localhost:8080/updateFav",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(tempfav[event.args.rowindex]),
+                        success: function (data, status, jqXHR) {
+                            console.log(data);
+                        },
+                        error: function (jqXHR, status) {
+                            // error handler
+                        }
+                    });
+                    tempfav[event.args.rowindex] = new Object();
+                }
+            });
+        });
+    </script>
+
+
+    <style type="text/css">
+        .lab1 {
+            border: 1px solid black;
+            font-size: 11px;
+        }
+
+        .lab2 {
+            font-size: large;
+        }
+
+        .lab3 {
+            border: 1px solid black;
+            font-size: 15px;
+        }
+
+        .labchan {
+            border: 1px solid black;
+            font-size: 15px;
+            background-color: red;
+            margin-left: 120px;
+        }
+
+        .Center {
+            background-color: #50c878;
+            width: 892px;
+            position: absolute;
+            margin-top: 265px;
+        }
+
+        .nameRes {
+            text-align: center;
+            width: 120px;
+            background-color: #50c878;
+            height: 22px;
+            border: 2px solid black;
+        }
+
+        .lab {
+            display: inline-block;
+            float: right;
+            font-size: x-small;
+        }
+
+        .name {
+            border: 1px solid black;
+            width: 120px;
+            font-size: x-small;
+        }
+
+        .namepiv {
+            border: 2px solid black;
+            width: 170px;
+            text-align: center;
+            background-color: Yellow;
+            height: 22px;
+            float: left;
+        }
+
+        .namesupp {
+            text-align: center;
+            width: 120px;
+            background-color: Red;
+            height: 22px;
+            border: 2px solid black;
+        }
+
+        .DaySupp3 {
+            width: 120px;
+            float: left;
+            margin-top: 227px;
+        }
+
+        .DaySupp2 {
+            width: 120px;
+            float: left;
+            margin-top: 190px;
+        }
+
+        .DaySupp1 {
+            width: 120px;
+            float: left;
+            margin-top: 153px;
+        }
+
+        .DayRes1 {
+            width: 120px;
+            float: left;
+            margin-top: 74px;
+        }
+
+        .DayRes2 {
+            width: 120px;
+            float: left;
+            margin-top: 37px;
+        }
+
+        .DayRes3 {
+            width: 120px;
+            float: left;
+            margin-top: 0px;
+        }
+
+        .DailyPivot {
+            margin-top: 110px;
+            width: 171px;
+            float: left;
+        }
+
+        .WeekRes1 {
+            margin-left: -120px;
+            margin-top: 320px;
+            width: 121px;
+            float: left;
+        }
+
+        .WeekRes2 {
+            margin-left: -239px;
+            margin-top: 358px;
+            width: 121px;
+            float: left;
+        }
+
+        .WeekRes3 {
+            margin-left: -359px;
+            margin-top: 395px;
+            width: 121px;
+            float: left;
+        }
+
+        .WeeklyPivot {
+            margin-left: -530px;
+            margin-top: 431px;
+            width: 171px;
+            float: left;
+        }
+
+        .WeekSupp3 {
+            margin-top: 547px;
+            margin-left: -890px;
+            width: 132px;
+            float: left;
+        }
+
+        .WeekSupp2 {
+            margin-top: 510px;
+            margin-left: -770px;
+            width: 132px;
+            float: left;
+        }
+
+        .WeekSupp1 {
+            margin-top: 474px;
+            margin-left: -650px;
+            width: 132px;
+            float: left;
+        }
+
+        .wrapper1 {
+            margin-left: 0px;
+            margin-right: 0px;
+            width: 1290px;
+        }
+
+        .name1 {
+            width: 50px;
+            float: left;
+            margin-left: 70px;
+            margin-top: -15px;
+            font-size: x-small;
+            text-align: right;
+        }
+
+        .name2 {
+            width: 50px;
+            float: left;
+            margin-top: -15px;
+            font-size: x-small;
+            text-align: left;
+        }
+
+        table {
+            border: 1px solid black;
+            width: 210px;
+            font-size: x-small;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 100px;
+            font-size: x-small;
+            text-align: left;
+        }
+
+        .style2 {
+            width: 200px;
+            text-align: center;
+            background-color: Yellow;
+        }
+
+        .style3 {
+            width: 73px;
+        }
+
+        .style4 {
+            width: 64px;
+        }
+
+        .style5 {
+            width: 111px;
+            height: 95px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+<div ng-controller="Hello">
+
+    <div class="wrapper1">
+        <div class="DaySupp3">
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lbldailysupname6" style="color:Red;">{{dailyArray[0].level}}</span>
+            </div>
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lbldailysupname7" style="color:Red;">{{dailyArray[1].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lbldailysup7">{{dailyArray[0].level}}</span>
+                <span id="ContentPlaceHolder1_lbldailysup6" class="lab">{{dailyArray[1].level}}</span>
+            </div>
+            <div class="namesupp">
+                <span id="ContentPlaceHolder1_lbldaysup3">SUPPORT 3</span>
+            </div>
+        </div>
+        <div class="DaySupp2">
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lbldailysupname4" style="color:Red;">{{dailyArray[2].name}}</span>
+            </div>
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lbldailysupname5" style="color:Red;">{{dailyArray[3].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lbldailysup5">{{dailyArray[2].level}}</span>
+                <span id="ContentPlaceHolder1_lbldailysup4" class="lab">{{dailyArray[3].level}}</span>
+            </div>
+            <div class="namesupp">
+                <span id="ContentPlaceHolder1_Label5">SUPPORT 2</span>
+            </div>
+        </div>
+        <div class="DaySupp1">
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lbldailysupname3" style="color:Red;">{{dailyArray[4].name}}</span>
+            </div>
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lbldailysupname2" style="color:Red;">{{dailyArray[5].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lbldailysup3">{{dailyArray[4].level}}</span>
+                <span id="ContentPlaceHolder1_lbldailysup2" class="lab">{{dailyArray[5].level}}</span>
+            </div>
+            <div class="namesupp">
+                <span id="ContentPlaceHolder1_lbldaysup1">SUPPORT 1</span>
+            </div>
+        </div>
+        <div class="DailyPivot">
+            <div style="float: left; width: 57px; margin-top: -20px; border: 2px solid #000000; height: 22px; background-color: Red">
+                <span id="ContentPlaceHolder1_lbldailysup1">{{dailyArray[6].level}}</span>
+            </div>
+            <div style="float: left; margin-left: -55px; margin-top: -40px; width: 49px; font-size: x-small">
+                <span id="ContentPlaceHolder1_lbldailysupname1" style="color:Red;">{{dailyArray[6].name}}</span>
+            </div>
+            <div style="float: left; margin-top: -20px; width: 49px; font-size: x-small">
+                <span id="ContentPlaceHolder1_lbldailypivotname" style="color:Red;">{{dailyArray[7].name}}</span>
+            </div>
+            <div style="text-align: center; float: left; width: 57px; border: 2px solid black; height: 22px;">
+                <span id="ContentPlaceHolder1_lbldailypivot">{{dailyArray[7].level}}</span>
+            </div>
+            <div style="float: right; width: 49px; margin-top: -20px; text-align: right; margin-top: -40px; font-size: x-small">
+                <span id="ContentPlaceHolder1_lbldailyresname1" style="color:Red;">{{dailyArray[8].name}}</span>
+            </div>
+            <div style="float: left; text-align: center; margin-top: -20px; width: 57px; border: 2px solid black; height: 22px; background-color: Green">
+                <span id="ContentPlaceHolder1_lbldailyres1">{{dailyArray[8].level}}</span>
+            </div>
+            <div class="namepiv">
+                <span id="ContentPlaceHolder1_lbldaiypivoit">PIVOT</span>
+            </div>
+        </div>
+        <div class="DayRes1">
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lbldailyresname2" style="color:Red;">{{dailyArray[9].name}}</span>
+            </div>
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lbldailyresname3" style="color:Red;">{{dailyArray[10].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lbldailyres2">{{dailyArray[9].level}}</span>
+                <span id="ContentPlaceHolder1_lbldailyres3" class="lab">{{dailyArray[10].level}}</span>
+            </div>
+            <div class="nameRes">
+                <span id="ContentPlaceHolder1_lbldayres3">RESISTANCE 1</span>
+            </div>
+        </div>
+        <div class="DayRes2">
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lbldailyresname4" style="color:Red;">{{dailyArray[11].name}}</span>
+            </div>
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lbldailyresname5" style="color:Red;">{{dailyArray[12].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lbldailyres4">{{dailyArray[11].level}}</span>
+                <span id="ContentPlaceHolder1_lbldailyres5" class="lab">{{dailyArray[12].level}}</span>
+            </div>
+            <div class="nameRes">
+                <span id="ContentPlaceHolder1_lbldayres2">RESISTANCE 2</span>
+            </div>
+        </div>
+        <div class="DayRes3">
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lbldailyresname6" style="color:Red;">{{dailyArray[13].name}}</span>
+            </div>
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lbldailyresname7" style="color:Red;">{{dailyArray[14].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lbldailyres6">{{dailyArray[13].level}}</span>
+                <span id="ContentPlaceHolder1_lbldailyres7" class="lab">{{dailyArray[14].level}}</span>
+            </div>
+            <div class="nameRes">
+                <span id="ContentPlaceHolder1_lbldayres1">RESISTANCE 3</span>
+            </div>
+        </div>
+        <div class="Center">
+            &nbsp;
+        </div>
+        <div style="float: left; font-size: x-small; margin-left: -890px; margin-top: 0px; width: 700px;">
+
+            <span id="ContentPlaceHolder1_Label8">WeeklyClose</span>
+            <input name="ctl00$ContentPlaceHolder1$txtweeklyclose" type="number" ng-model="weekRange"
+                   ng-blur="getdetails(weekRange,'weekly')" style="height:16px;width:80px;"/>
+            <span id="ContentPlaceHolder1_Label9">DailyClose</span>
+            <input name="ctl00$ContentPlaceHolder1$txtdailyclose" type="number" ng-model="dailRange"
+                   ng-blur="getdetails(dailRange,'daily')" style="height:16px;width:80px;"/>
+            <span id="ContentPlaceHolder1_Label2" class="lab1"></span>
+            <span id="ContentPlaceHolder1_Label1" class="lab1">DAY LEVEL</span>
+            <span id="ContentPlaceHolder1_Label4" class="labchan">CHANDRASHTAMA</span>
+            <span id="ContentPlaceHolder1_lblchan" class="lab3">MIRUGASISISHAM</span>
+            <br/>
+            <br/>
+            <img class="style5" src="images/degree.png"/>
+        </div>
+        <div class="WeekRes3">
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lblweeklyresname2" style="color:Red;">{{weeklyArray[0].name}}</span>
+            </div>
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lblweeklyresname3" style="color:Red;">{{weeklyArray[1].name}}</span>
+
+
+            </div>
+            <div class="name">
+
+                <span id="ContentPlaceHolder1_lblweeklyres3" class="lab">{{weeklyArray[0].level}}</span>
+                <span id="ContentPlaceHolder1_lblweeklyres2">{{weeklyArray[1].level}}</span>
+            </div>
+            <div class="nameRes">
+                <span id="ContentPlaceHolder1_Lblweekres1">RESISTANCE 1</span>
+            </div>
+        </div>
+        <div class="WeekRes2">
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lblweeklyresname4" style="color:Red;">{{weeklyArray[2].name}}</span>
+            </div>
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lblweeklyresname5" style="color:Red;">{{weeklyArray[3].name}}</span>
+
+
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lblweeklyres5" class="lab">{{weeklyArray[2].level}}</span>
+                <span id="ContentPlaceHolder1_lblweeklyres4">{{weeklyArray[3].level}}</span>
+
+            </div>
+            <div class="nameRes">
+                <span id="ContentPlaceHolder1_lblweekres2">RESISTANCE 2</span>
+            </div>
+        </div>
+        <div class="WeekRes1">
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lblweeklyresname6" style="color:Red;">{{weeklyArray[4].name}}</span>
+
+            </div>
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lblweeklyresname7" style="color:Red;">{{weeklyArray[5].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lblweeklyres6">{{weeklyArray[4].level}}</span>
+                <span id="ContentPlaceHolder1_lblweeklyres7" class="lab">{{weeklyArray[5].level}}</span>
+            </div>
+            <div class="nameRes">
+                <span id="ContentPlaceHolder1_lblweekres3">RESISTANCE 3</span>
+            </div>
+        </div>
+        <div class="WeeklyPivot">
+            <div style="float: left; width: 57px; margin-top: -20px; border: 2px solid #000000; height: 22px; background-color: Red">
+                <span id="ContentPlaceHolder1_lblweeklysup1">{{weeklyArray[6].level}}</span>
+            </div>
+            <div style="float: left; margin-left: -55px; margin-top: -40px; width: 49px; font-size: x-small">
+                <span id="ContentPlaceHolder1_lblweeklysupname1" style="color:Red;">{{weeklyArray[6].name}}</span>
+            </div>
+            <div style="float: left; margin-top: -20px; width: 49px; font-size: x-small">
+                <span id="ContentPlaceHolder1_lblweeklypivname" style="color:Red;">{{weeklyArray[7].name}}</span>
+            </div>
+            <div style="text-align: center; float: left; width: 57px; border: 2px solid black; height: 22px;">
+                <span id="ContentPlaceHolder1_lblweeklypiviot">{{weeklyArray[7].level}}</span>
+            </div>
+            <div style="float: right; width: 49px; margin-top: -20px; text-align: right; margin-top: -40px; font-size: x-small">
+                <span id="ContentPlaceHolder1_lblweeklyresname1" style="color:Red;">{{weeklyArray[8].name}}</span>
+            </div>
+            <div style="float: left; text-align: right; margin-top: -20px; width: 57px; border: 2px solid black; height: 22px; background-color: Green">
+                <span id="ContentPlaceHolder1_lblweeklyres1">{{weeklyArray[8].level}}</span>
+            </div>
+            <div class="namepiv">
+                <span id="ContentPlaceHolder1_lblWeekpivoit">PIVOT</span>
+            </div>
+        </div>
+        <div class="WeekSupp3">
+            <div class="name2">
+                <span id="ContentPlaceHolder1_lblweeklysupname7" style="color:Red;">{{weeklyArray[9].name}}</span>
+
+            </div>
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lblweeklysupname6" style="color:Red;">{{weeklyArray[10].name}}</span>
+
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lblweeklysup7">{{weeklyArray[9].level}}</span>
+                <span id="ContentPlaceHolder1_lblweeklysup6" class="lab">{{weeklyArray[10].level}}</span>
+            </div>
+            <div class="namesupp">
+                <span id="ContentPlaceHolder1_lblweeksup3">SUPPORT 3</span>
+            </div>
+        </div>
+        <div class="WeekSupp2">
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lblweeklysupname4" style="color:Red;">{{weeklyArray[11].name}}</span>
+            </div>
+            <div class="name2">
+
+                <span id="ContentPlaceHolder1_lblweeklysupname5" style="color:Red;">{{weeklyArray[12].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lblweeklysup5">{{weeklyArray[11].level}}</span>
+                <span id="ContentPlaceHolder1_lblweeklysup4" class="lab">{{weeklyArray[12].level}}</span>
+            </div>
+            <div class="namesupp">
+                <span id="ContentPlaceHolder1_lblweeksup2">SUPPORT 2</span>
+            </div>
+        </div>
+        <div class="WeekSupp1">
+            <div class="name1">
+                <span id="ContentPlaceHolder1_lblweeklysupname2" style="color:Red;">{{weeklyArray[13].name}}</span>
+            </div>
+            <div class="name2">
+
+                <span id="ContentPlaceHolder1_lblweeklysupname3" style="color:Red;">{{weeklyArray[14].name}}</span>
+            </div>
+            <div class="name">
+                <span id="ContentPlaceHolder1_lblweeklysup3">{{weeklyArray[13].level}}</span>
+                <span id="ContentPlaceHolder1_lblweeklysup2" class="lab">{{weeklyArray[14].level}}</span>
+            </div>
+            <div class="namesupp">
+                <span id="ContentPlaceHolder1_lblweeksup1">SUPPORT 1</span>
+            </div>
+        </div>
+        <div style="border: 1px solid black; margin-top: 302px; float: left; margin-left: -895px; font-size: small">
+            <Label ID="lblweeklytrend" runat="server" Text=""></Label>
+        </div>
+        <div style="margin-top: 290px; float: left; margin-left: -800px; font-size: small">
+            <Label ID="Label6" runat="server" Text="-WEEKLY LEVEL"></Label>
+        </div>
+        <div style="margin-top: 312px; border: 2px solid black; float: left; margin-left: -895px; font-size: small; height: 50px; width: 130px; text-align: center">
+            <br/>
+            <Label ID="Label7" runat="server" Text="WEEKLY TREND"></Label>
+        </div>
+        <div id="Trend1" runat="server"
+             style="margin-top: 312px; border: 2px solid black; float: left; margin-left: -763px; height: 50px; width: 130px; text-align: center; font-weight: bold; font-size: 22px; font-family: Comic Sans MS">
+            <Label ID="lbltrend" runat="server"></Label>
+        </div>
+        <div style="margin-top: 285px; float: left; height: 40px; background-color: Yellow; width: 250px; margin-left: -520px; border: 2px solid black; text-align: center; font-weight: bold; font-size: 25px">
+            <Label ID="Label3" runat="server" Text="TAMIL SANDHAI"></Label>
+        </div>
+        <div id='jqxWidget'>
+            <div id="jqxgrid"></div>
+            <div style="font-size: 12px; font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif; margin-top: 30px;">
+                <div id="cellbegineditevent"></div>
+                <div style="margin-top: 10px;" id="cellendeditevent"></div>
+            </div>
+        </div>
+        <div style="float: left">
+            <table>
+                <tr>
+                    <td>
+                        <Label ID="lbldate" runat="server" Text=""></Label>
+                    </td>
+                    <td>SUNRISE
+                    </td>
+                    <td>
+                        <Label ID="lblsunrise" runat="server" Text=""></Label>
+                        <Label ID="lblnexttime" runat="server" Text="" Visible="false"></Label>
+                    </td>
+                    <td>
+                        <Label ID="lblsunset" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>DAY
+                    </td>
+                    <td>
+                        <Label ID="lblday" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbldayplanet" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>NAKSHATRA
+                    </td>
+                    <td>
+                        <Label ID="lblnat1" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lblnat2" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td class="style2">HORAI
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td style="background-color: Green">
+                        <Label ID="lblname1" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl1" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl2" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname2" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl3" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl4" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname3" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl5" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl6" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname4" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl7" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl8" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname5" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl9" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl10" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname6" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl11" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl12" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname7" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl13" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl14" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: Green">
+                        <Label ID="lblname8" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl15" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl16" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname9" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl17" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl18" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname10" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl19" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl20" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname11" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl21" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl22" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname12" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl23" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl24" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname13" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl25" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl26" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname14" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl27" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl28" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: Green">
+                        <Label ID="lblname15" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl29" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl30" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname16" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl31" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl32" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Label ID="lblname17" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl33" runat="server" Text=""></Label>
+                    </td>
+                    <td>
+                        <Label ID="lbl34" runat="server" Text=""></Label>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <table style="font-weight: bold">
+                <tr>
+                    <td>சூரியன்</td>
+                    <td>SUN</td>
+                </tr>
+                <tr>
+                    <td>சந்திரன்</td>
+                    <td>MOON</td>
+                </tr>
+                <tr>
+                    <td>செவ்வாய்</td>
+                    <td>MARS</td>
+                </tr>
+                <tr>
+                    <td>புதன்</td>
+                    <td>MERCURAY</td>
+                </tr>
+                <tr>
+                    <td>குரு</td>
+                    <td>JUPITER</td>
+                </tr>
+                <tr>
+                    <td>சுக்கிரன்</td>
+                    <td>VENUS</td>
+                </tr>
+                <tr>
+                    <td>சனி</td>
+                    <td>SATURAN</td>
+                </tr>
+                <tr>
+                    <td>ராகு</td>
+                    <td>RAGHU</td>
+                </tr>
+                <tr>
+                    <td>கேது</td>
+                    <td>KETHU</td>
+                </tr>
+
+            </table>
+            <br/>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

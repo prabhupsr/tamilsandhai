@@ -1,0 +1,122 @@
+
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><link type="text/css" rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" /><link type="text/css" rel="stylesheet" href="../../dist/css/AdminLTE.min.css" />
+    <style type="text/css">
+        body {
+            background-color: #f4f4f4;
+            color: #5a5656;
+            font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            line-height: 1.5em;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 30px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h1, p {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        /* ---------- LOGIN ---------- */
+        #login {
+            margin: 160px auto;
+            width: 300px;
+        }
+
+        form fieldset input[type="text"], input[type="password"] {
+            background-color: #e5e5e5;
+            border: none;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            color: #5a5656;
+            font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            height: 50px;
+            outline: none;
+            padding: 0px 10px;
+            width: 280px;
+            -webkit-appearance: none;
+        }
+
+        form fieldset input[type="submit"] {
+            background-color: #008dde;
+            border: none;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            color: #f4f4f4;
+            cursor: pointer;
+            font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            height: 50px;
+            text-transform: uppercase;
+            width: 300px;
+            -webkit-appearance: none;
+        }
+
+        form fieldset a {
+            color: #5a5656;
+            font-size: 10px;
+        }
+
+        form fieldset a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <title>
+
+    </title></head>
+<body>
+<form action="/landingPage" id="form1">
+
+    <div id="login">
+        <div style="text-align: center">
+            <h1><strong></strong></h1>
+
+            <h2>Login</h2>
+        </div>
+
+        <input type="text" id="email" name="email"  placeholder="Email"
+               class="form-control" />
+
+        <p>
+            <input name="userName" type="text" id="userName" class="form-control" Placeholder="userName" />
+        </p>
+        <p>
+            <input name="password" type="text" id="password" class="form-control" Placeholder="password" />
+        </p>
+        <p>
+            <input id="CheckBox1" type="checkbox" name="CheckBox1" />Remember me
+        </p>
+        <p>
+            <input type="submit" name="btnsubmit" value="Submit" id="btnsubmit" class="btn btn-primary" />
+        </p>
+        <p>
+            <span id="lblalert" style="color:Red;"></span>
+        </p>
+    </div>
+</form>
+<!-- end login -->
+</body>
+</html>
