@@ -2,10 +2,10 @@ package com.example.utils;
 
 import com.example.model.*;
 import com.example.repo.*;
+import com.example.service.StockDetailsUpdater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
@@ -32,6 +32,7 @@ public class DataLoader {
     private final WeeklyLevelRepo weeklyLevelRepo;
     private final UserDetailsRepo userDetailsRepo;
     private final StockDetailsRepo stockDetailsRepo;
+    private final StockDetailsUpdater stockDetailsUpdater;
     private final FavRepo favRepo;
 
     @Autowired
@@ -40,17 +41,19 @@ public class DataLoader {
         final FavRepo favRepo,
         final WeeklyLevelRepo weeklyLevelRepo,
         final UserDetailsRepo userDetailsRepo,
-        final StockDetailsRepo stockDetailsRepo) throws IOException {
+        final StockDetailsRepo stockDetailsRepo, final StockDetailsUpdater stockDetailsUpdater) throws IOException {
         this.dailyLevelRepo=dailyLevelRepo;
         this.weeklyLevelRepo=weeklyLevelRepo;
         this.userDetailsRepo=userDetailsRepo;
         this.favRepo=favRepo;
         this.stockDetailsRepo = stockDetailsRepo;
+        this.stockDetailsUpdater = stockDetailsUpdater;
         populateDailyLevelMap();
         populateWeeklyLevelMap();
         populateDefaultUsers();
         populateFavorites();
         populateStockDetails();
+        populateNiftyStockUpdates();
     }
 
     private void loadLevels(final File file, final CrudRepository repo, final boolean isDaily) throws IOException {
@@ -102,14 +105,18 @@ public class DataLoader {
 
     }
 
-    private void populateStockDetails(){
-        IntStream.range(0, NIFTY_COMPANY_SYMBOLS.size()).forEach(i ->{
+    private void populateStockDetails() {
+        IntStream.range(0, NIFTY_COMPANY_SYMBOLS.size()).forEach(i -> {
             System.out.println(i);
             stockDetailsRepo.save(new StockDetails(NIFTY_COMPANY_NAMES.get(i), NIFTY_COMPANY_SYMBOLS.get(i),
                 NIFTY_STRING));
-        } );
+        });
     }
 
-
-
+    private void populateNiftyStockUpdates() {
+        stockDetailsRepo.findByType(Constants.NIFTY_STRING).stream().forEach(stockDetailsUpdater::updateStockDetails);
+    }
 }
+
+
+

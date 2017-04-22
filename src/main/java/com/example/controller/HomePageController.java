@@ -54,13 +54,18 @@ public class HomePageController {
         return "homepge.html";
     }
 
-    @RequestMapping(value = "/testRestTemplate", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/updateNiftyStocks", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseBody
-    public List<StockDetails> tRTemp(@RequestParam("stk") final String stk) {
+    public List<StockDetails> updateNiftyStocks() {
         stockDetailsRepo.findByType(Constants.NIFTY_STRING).stream().forEach(stockDetailsUpdater::updateStockDetails);
         return stockDetailsRepo.findByType(Constants.NIFTY_STRING);
     }
 
+    @RequestMapping(value = "/findNiftyStocks", method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
+    public List<StockDetails> findNiftyStocks() {
+        return stockDetailsRepo.findByType(Constants.NIFTY_STRING);
+    }
 
 
 }

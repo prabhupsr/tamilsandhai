@@ -34,7 +34,7 @@
 
             jQuery.ajax({
                 type: "GET",
-                url: "http://localhost:8080/getFavorites",
+                url: "/getFavorites",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -467,13 +467,18 @@
             &nbsp;
         </div>
         <div style="float: left; font-size: x-small; margin-left: -890px; margin-top: 0px; width: 700px;">
+            <span id="dropDownNifty" >
+                <select ng-model="selectedNiftyStock" ng-options="niftyStock.name for niftyStock in niftyDetails track by niftyStock.symbol" ng-change="updateDailyAndWeeklyLevels()">
+                    <option value="">Select Nifty Stock.....</option>
+                </select>
+            </span>
 
             <span id="ContentPlaceHolder1_Label8">WeeklyClose</span>
-            <input name="ctl00$ContentPlaceHolder1$txtweeklyclose" type="number" ng-model="weekRange"
-                   ng-blur="getdetails(weekRange,'weekly')" style="height:16px;width:80px;"/>
+            <input name="ctl00$ContentPlaceHolder1$txtweeklyclose" type="number" ng-model="rangeVal.weeklyClose"
+                   ng-blur="getdetails(rangeVal.weeklyClose,'weekly')" style="height:16px;width:80px;"/>
             <span id="ContentPlaceHolder1_Label9">DailyClose</span>
-            <input name="ctl00$ContentPlaceHolder1$txtdailyclose" type="number" ng-model="dailRange"
-                   ng-blur="getdetails(dailRange,'daily')" style="height:16px;width:80px;"/>
+            <input name="ctl00$ContentPlaceHolder1$txtdailyclose" type="number" ng-model="rangeVal.dailyClose"
+                   ng-blur="getdetails(rangeVal.dailyClose,'daily')" style="height:16px;width:80px;"/>
             <span id="ContentPlaceHolder1_Label2" class="lab1"></span>
             <span id="ContentPlaceHolder1_Label1" class="lab1">DAY LEVEL</span>
             <span id="ContentPlaceHolder1_Label4" class="labchan">CHANDRASHTAMA</span>
