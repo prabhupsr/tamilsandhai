@@ -21,6 +21,8 @@
     <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxslider.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatatable.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxangular.js"></script>
     <script type="text/javascript" src="scripts/demos.js"></script>
     <script type="text/javascript" src="generatedata.js"></script>
     <script type="text/javascript">
@@ -80,15 +82,16 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
                     {
-                        width: 450,
+                        width: 290,
+                        height:330,
                         source: dataAdapter,
                         editable: true,
                         selectionmode: 'singlerow',
                         editmode: 'selectedrow',
                         columns: [
-                            {text: 'First Name', columntype: 'textbox', datafield: 'name', width: 80},
-                            {text: 'Last Name', datafield: 'dailyClose', columntype: 'textbox', width: 80},
-                            {text: 'Product', columntype: 'dropdownlist', datafield: 'weeklyClose', width: 195}
+                            {text: 'Stock Name', columntype: 'textbox', datafield: 'name', width: 140},
+                            {text: 'dailyClose', datafield: 'dailyClose', columntype: 'textbox', width: 75},
+                            {text: 'weeklyClose', columntype: 'textbox', datafield: 'weeklyClose', width: 75}
                         ]
                     });
 
@@ -126,6 +129,58 @@
                     tempfav[event.args.rowindex] = new Object();
                 }
             });
+
+
+
+
+            var sunRaiseData = new Array();
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/calculateTimeDetails",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data, status, jqXHR) {
+                    sunRaiseData = data;
+                    console.log(data);
+                    console.log(sunRaiseData);
+
+                },
+                error: function (jqXHR, status) {
+                    // error handler
+                }
+            });
+
+            var sunRaiseSource =
+            {
+                localdata: sunRaiseData,
+                datatype: "array",
+                datafields: [
+                    {name: 'day', type: 'string'},
+                    {name: 'startTime', type: 'string'},
+                    {name: 'endTime', type: 'string'}
+                ]
+            };
+
+            var sunRaiseDataAdapter = new $.jqx.dataAdapter(sunRaiseSource);
+
+            $("#jqxgridsun").jqxGrid(
+                    {
+                        width: 290,
+                        height:490,
+                        source: sunRaiseDataAdapter,
+                        editable: false,
+                        columns: [
+                            {text: 'Day', columntype: 'textbox', datafield: 'day', width: 90},
+                            {text: 'Start Time', datafield: 'startTime', columntype: 'textbox', width: 100},
+                            {text: 'End Time', columntype: 'dropdownlist', datafield: 'endTime', width: 100}
+                        ]
+                    });
+
+
+
+
         });
     </script>
 
@@ -348,8 +403,7 @@
 
 <body>
 <div ng-controller="Hello">
-
-    <div class="wrapper1">
+        <div class="wrapper1">
         <div class="DaySupp3">
             <div class="name1">
                 <span id="ContentPlaceHolder1_lbldailysupname6" style="color:Red;">{{dailyArray[0].level}}</span>
@@ -628,13 +682,6 @@
         <div style="margin-top: 285px; float: left; height: 40px; background-color: Yellow; width: 250px; margin-left: -520px; border: 2px solid black; text-align: center; font-weight: bold; font-size: 25px">
             <Label ID="Label3" runat="server" Text="TAMIL SANDHAI"></Label>
         </div>
-        <div id='jqxWidget'>
-            <div id="jqxgrid"></div>
-            <div style="font-size: 12px; font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif; margin-top: 30px;">
-                <div id="cellbegineditevent"></div>
-                <div style="margin-top: 10px;" id="cellendeditevent"></div>
-            </div>
-        </div>
         <div style="float: left">
             <table>
                 <tr>
@@ -672,200 +719,33 @@
                     </td>
                 </tr>
             </table>
+            </br>
             <table>
+
                 <tr>
-                    <td class="style2">HORAI
-                    </td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <td style="background-color: Green">
-                        <Label ID="lblname1" runat="server" Text=""></Label>
-                    </td>
                     <td>
-                        <Label ID="lbl1" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl2" runat="server" Text=""></Label>
+                        <h3 align="center">Favorites</h3>
+                        <div id='jqxWidget'>
+                            <div id="jqxgrid"></div>
+                            <div style="font-size: 12px; font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif; margin-top: 30px;">
+                                <div id="cellbegineditevent"></div>
+                                <div style="margin-top: 10px;" id="cellendeditevent"></div>
+                            </div>
+                        </div>
+
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <Label ID="lblname2" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl3" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl4" runat="server" Text=""></Label>
+                        <h3 align="center">HORAI</h3>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <Label ID="lblname3" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl5" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl6" runat="server" Text=""></Label>
+                        <div id="jqxgridsun"></div>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname4" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl7" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl8" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname5" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl9" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl10" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname6" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl11" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl12" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname7" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl13" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl14" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: Green">
-                        <Label ID="lblname8" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl15" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl16" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname9" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl17" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl18" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname10" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl19" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl20" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname11" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl21" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl22" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname12" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl23" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl24" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname13" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl25" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl26" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname14" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl27" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl28" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: Green">
-                        <Label ID="lblname15" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl29" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl30" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname16" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl31" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl32" runat="server" Text=""></Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Label ID="lblname17" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl33" runat="server" Text=""></Label>
-                    </td>
-                    <td>
-                        <Label ID="lbl34" runat="server" Text=""></Label>
-                    </td>
-                </tr>
+
             </table>
             <br/>
             <table style="font-weight: bold">
@@ -907,9 +787,11 @@
                 </tr>
 
             </table>
-            <br/>
         </div>
     </div>
+
+
+
 
 </div>
 </body>

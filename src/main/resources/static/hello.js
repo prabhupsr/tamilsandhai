@@ -1,4 +1,4 @@
-angular.module('demo', [])
+angular.module('demo', ["jqwidgets"])
     .controller('Hello', function ($scope, $http) {
         $scope.dailyArray = new Array();
         $scope.weeklyArray = new Array();
@@ -6,6 +6,25 @@ angular.module('demo', [])
         $scope.niftyDetails = new Array();
         $scope. dailRange=500;
         $scope.rangeVal={dailyClose: 200,weeklyClose:300};
+        $scope.sunRaiseDetails = new Array();
+
+        for (var i = 0; i < 15; i++) {
+            $scope.dailyArray[i] = new Array();
+            $scope.weeklyArray[i] = new Array();
+        }
+
+
+
+        $http({
+            method: 'GET',
+            dataType: "jsonp",
+            url: '/calculateTimeDetails'
+        }).then(function successCallback(response) {
+            console.log(response.data);
+
+        }, function errorCallback(response) {
+            console.log(response.statusText);
+        });
 
         $http({
             method: 'GET',
@@ -19,10 +38,35 @@ angular.module('demo', [])
         });
 
 
-        for (var i = 0; i < 15; i++) {
-            $scope.dailyArray[i] = new Array();
-            $scope.weeklyArray[i] = new Array();
-        }
+
+
+        $scope.gridSettings =
+        {
+            width: 350,
+            pageable: true,
+            pagerButtonsCount: 20,
+            source:   new $.jqx.dataAdapter({
+                localData: $scope.sunRaiseDetails,
+                dataType: "array",
+                dataFields:
+                    [
+                        { name: 'day', type: 'string' },
+                        { name: 'startTime', type: 'string' },
+                        { name: 'endTime', type: 'string' }
+                    ]
+            }),
+            columnsResize: true,
+            columns: [
+                { text: 'Day', dataField: 'day', width: 100 },
+                { text: 'Start Time', dataField: 'startTime', width: 100 },
+                { text: 'End Time', editable: false, dataField: 'endTime', width: 100 }
+            ]
+        };
+
+
+
+
+
 
         $scope.getdetails = function (range, type) {
             if (!range || !type) {

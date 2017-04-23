@@ -24,12 +24,10 @@ public class HomePageController {
 
     @Autowired private UserDetailsRepo userDetailsRepo;
     @Autowired private UserLoginActivityLogRepo userLoginActivityLogRepo;
-    @Autowired private StockDetailsUpdater stockDetailsUpdater;
-    @Autowired private StockDetailsRepo stockDetailsRepo;
 
     @RequestMapping("/")
     public String getHomes() {
-        return "homepge.html";
+        return "login.html";
     }
 
     @RequestMapping(value = "/landingPage")
@@ -42,7 +40,7 @@ public class HomePageController {
             o.getUserId(),
             o.getUserName(),
             Constants.USER_LOGGED_IN)).ifPresent(userLoginActivityLogRepo::save);
-        return byUserName.map(ud -> (ud.getAdmin()) ? "indx.html" : "index.html").orElse("homepge.html");
+        return byUserName.map(ud -> (ud.getAdmin()) ? "indx.html" : "index.html").orElse("login.html");
     }
 
     @RequestMapping("/logout")
@@ -54,18 +52,6 @@ public class HomePageController {
         return "homepge.html";
     }
 
-    @RequestMapping(value = "/updateNiftyStocks", method = RequestMethod.GET, produces = {"application/json"})
-    @ResponseBody
-    public List<StockDetails> updateNiftyStocks() {
-        stockDetailsRepo.findByType(Constants.NIFTY_STRING).stream().forEach(stockDetailsUpdater::updateStockDetails);
-        return stockDetailsRepo.findByType(Constants.NIFTY_STRING);
-    }
-
-    @RequestMapping(value = "/findNiftyStocks", method = RequestMethod.GET, produces = {"application/json"})
-    @ResponseBody
-    public List<StockDetails> findNiftyStocks() {
-        return stockDetailsRepo.findByType(Constants.NIFTY_STRING);
-    }
 
 
 }

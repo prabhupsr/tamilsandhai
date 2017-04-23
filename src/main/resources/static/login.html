@@ -1,36 +1,162 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-
+<!doctype html>
+<html ng-app="demo">
 <head>
-	<title>Spring Security Tutorial</title>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>tamil Sandhai</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+	<script src="hello.js"></script>
+	<meta name="description"
+		  content="jQuery Data Grid with custom cell editors. The example shows how to create cell editors"/>
+	<link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css"/>
+	<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxgrid.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxgrid.edit.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxgrid.selection.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxslider.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxdatatable.js"></script>
+	<script type="text/javascript" src="jqwidgets/jqxangular.js"></script>
+	<script type="text/javascript" src="scripts/demos.js"></script>
+	<script type="text/javascript" src="generatedata.js"></script>
+	<script type="text/javascript">
+		$('.message a').click(function(){
+			$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+		});
+	</script>
+
+
+	<style type="text/css">
+		@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+		.login-page {
+			width: 360px;
+			padding: 8% 0 0;
+			margin: auto;
+		}
+		.form {
+			position: relative;
+			z-index: 1;
+			background: #FFFFFF;
+			max-width: 360px;
+			margin: 0 auto 100px;
+			padding: 45px;
+			text-align: center;
+			box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+		}
+		.form input {
+			font-family: "Roboto", sans-serif;
+			outline: 0;
+			background: #f2f2f2;
+			width: 100%;
+			border: 0;
+			margin: 0 0 15px;
+			padding: 15px;
+			box-sizing: border-box;
+			font-size: 14px;
+		}
+
+
+		 .form button {
+			font-family: "Roboto", sans-serif;
+			text-transform: uppercase;
+			outline: 0;
+			background: #4CAF50;
+			width: 100%;
+			border: 0;
+			padding: 15px;
+			color: #FFFFFF;
+			font-size: 14px;
+			-webkit-transition: all 0.3 ease;
+			transition: all 0.3 ease;
+			cursor: pointer;
+		}
+		.form button:hover,.form button:active,.form button:focus {
+			background: #43A047;
+		}
+		.form .message {
+			margin: 15px 0 0;
+			color: #b3b3b3;
+			font-size: 12px;
+		}
+		.form .message a {
+			color: #4CAF50;
+			text-decoration: none;
+		}
+		.form .register-form {
+			display: none;
+		}
+		.container {
+			position: relative;
+			z-index: 1;
+			max-width: 300px;
+			margin: 0 auto;
+		}
+		.container:before, .container:after {
+			content: "";
+			display: block;
+			clear: both;
+		}
+		.container .info {
+			margin: 50px auto;
+			text-align: center;
+		}
+		.container .info h1 {
+			margin: 0 0 15px;
+			padding: 0;
+			font-size: 36px;
+			font-weight: 300;
+			color: #1a1a1a;
+		}
+		.container .info span {
+			color: #4d4d4d;
+			font-size: 12px;
+		}
+		.container .info span a {
+			color: #000000;
+			text-decoration: none;
+		}
+		.container .info span .fa {
+			color: #EF3B3A;
+		}
+		body {
+			background: #76b852; /* fallback for old browsers */
+			background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+			background: -moz-linear-gradient(right, #76b852, #8DC26F);
+			background: -o-linear-gradient(right, #76b852, #8DC26F);
+			background: linear-gradient(to left, #76b852, #8DC26F);
+			font-family: "Roboto", sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+	</style>
+
+
 </head>
 
 <body>
-	<form th:action="@{/registration}" method="get">
-		<button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
-	</form>	
-	
-	<div class="container">
-		<img th:src="@{/images/login.jpg}" class="img-responsive center-block" width="300" height="300" alt="Logo" />
-		<form th:action="@{/login}" method="POST" class="form-signin">
-			<h3 class="form-signin-heading" th:text="Welcome"></h3>
-			<br/>
-			 
-			<input type="text" id="email" name="email"  th:placeholder="Email"
-				class="form-control" /> <br/> 
-			<input type="password"  th:placeholder="Password"
-				id="password" name="password" class="form-control" /> <br /> 
-				
-			<div align="center" th:if="${param.error}">
-				<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
-			</div>
-			<button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit" th:text="Login"></button>
+
+<div class="login-page">
+	<div class="form">
+		<form  action="/landingPage" class="register-form" >
+			<input type="text" placeholder="userName"/>
+			<input type="password" placeholder="password"/>
+			<button>create</button>
+			<p class="message">Already registered? <a href="#">Sign In</a></p>
+		</form>
+		<form action="/landingPage" class="login-form">
+			<input name="userName" type="text" id="userName" placeholder="userName"/>
+			<input name="password" type="password"  type="password" placeholder="password"/>
+			<button>login</button>
+			<p class="message">Not registered? <a href="#">Create a n account</a></p>
 		</form>
 	</div>
+</div>
 </body>
 </html>

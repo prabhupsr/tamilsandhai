@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,12 +36,11 @@ public class StockDetailsUpdater {
     public void updateStockDetails(final StockDetails stockDetails) {
         getCloseValues(stockDetails.getSymbol()).ifPresent(v -> {
             stockDetails.setDailyClose(v);
-            if(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)==Calendar.FRIDAY){
+            if(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)==Calendar.FRIDAY || Objects.isNull(stockDetails.getWeeklyClose())){
                 stockDetails.setWeeklyClose(v);
             }
             stockDetailsRepo.save(stockDetails);
             favRepo.updateBySymbol(stockDetails.getSymbol(), v);
-
         });
     }
 

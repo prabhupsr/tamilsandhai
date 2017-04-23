@@ -2,33 +2,48 @@ package com.example.utils;
 
 import com.example.model.DailyLevel;
 import com.example.model.WeeklyLevel;
+import com.example.pojo.SunsetSunRaiseDetails;
+import com.google.common.collect.ImmutableMap;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static java.util.stream.Stream.of;
 
 /**
  * @author mchidambaranathan 4/17/2017
  */
 public interface Constants {
-    Integer USER_LOGGED_IN=2;
-    Integer USER_SESSION_TIME_OUT=1;
-    Integer USER_LOGGED_OUT=0;
-    String USER_NAME="USER_NAME";
-    List<Double> DAILY_LEVELS_RANGE_LIST=new ArrayList<>();
-    NavigableMap<Double,DailyLevel> DAILY_LEVELS_MAP = new TreeMap<>();
-    List<Double> WEEKLY_LEVELS_RANGE_LIST=new ArrayList<>();
-    NavigableMap<Double,WeeklyLevel> WEEKLY_LEVELS_MAP = new TreeMap<>();
+    Integer USER_LOGGED_IN = 2;
+    Integer USER_SESSION_TIME_OUT = 1;
+    Integer USER_LOGGED_OUT = 0;
+    String USER_NAME = "USER_NAME";
+    List<Double> DAILY_LEVELS_RANGE_LIST = new ArrayList<>();
+    NavigableMap<Double, DailyLevel> DAILY_LEVELS_MAP = new TreeMap<>();
+    List<Double> WEEKLY_LEVELS_RANGE_LIST = new ArrayList<>();
+    NavigableMap<Double, WeeklyLevel> WEEKLY_LEVELS_MAP = new TreeMap<>();
 
-    String NIFTY_STRING="NIFTY";
+    String NIFTY_STRING = "NIFTY";
 
-    String NIFTY_BASE_URL="https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=";
+    String NIFTY_BASE_URL =
+        "https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=";
 
+    List<String> DAYS_OF_WEEK = of(
+        "SUN",
+        "VENUS",
+        "MERCURY",
+        "MOON",
+        "SATURN",
+        "JUPITER",
+        "MARS").collect(Collectors.toList());
+    ImmutableMap<Integer, String> DAY_TO_SYMBOL_MAPPING = ImmutableMap.<Integer, String>builder().put(1, "SUN").put(2,
+        "MOON").put(3, "MARS").put(4, "MERCURY").put(5, "JUPITER").put(6, "VENUS").put(7, "SATURN").build();
 
-    final List<String> NIFTY_COMPANY_SYMBOLS = Stream.of("ABB",
+    String SUNSET_SUNRAISE_URL = "http://api.sunrise-sunset.org/json?lat=19.0759837&lng=72.8776559&formatted=0&date=";
+
+    Map<Integer, List<SunsetSunRaiseDetails>> SUN_RAISE_DETAILS_MAP = new HashMap<>();
+    final List<String> NIFTY_COMPANY_SYMBOLS = of(
+        "ABB",
         "ASHOKLEY",
         "BAJFINANCE",
         "BAJAJFINSV",
@@ -79,7 +94,9 @@ public interface Constants {
         "MCDOWELL-N",
         "VEDL").collect(
         Collectors.toList());
-    final List<String> NIFTY_COMPANY_NAMES = Stream.of("ABB India Ltd.",
+
+    final List<String> NIFTY_COMPANY_NAMES = of(
+        "ABB India Ltd.",
         "Ashok Leyland Ltd.",
         "Bajaj Finance Ltd.",
         "Bajaj Finserv Ltd.",
@@ -130,5 +147,4 @@ public interface Constants {
         "United Spirits Ltd.",
         "Vedanta Ltd.").collect(Collectors.toList());
 
-
-    }
+}
