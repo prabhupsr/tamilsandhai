@@ -2,6 +2,7 @@ package com.example.utils;
 
 import com.example.model.DailyLevel;
 import com.example.model.WeeklyLevel;
+import com.example.pojo.SunRaiseDetails;
 import com.example.pojo.SunsetSunRaiseDetails;
 import com.google.common.collect.ImmutableMap;
 
@@ -41,7 +42,7 @@ public interface Constants {
 
     String SUNSET_SUNRAISE_URL = "http://api.sunrise-sunset.org/json?lat=19.0759837&lng=72.8776559&formatted=0&date=";
 
-    Map<Integer, List<SunsetSunRaiseDetails>> SUN_RAISE_DETAILS_MAP = new HashMap<>();
+    Map<Integer, SunRaiseDetails> SUN_RAISE_DETAILS_MAP = new HashMap<>();
     final List<String> NIFTY_COMPANY_SYMBOLS = of(
         "ABB",
         "ASHOKLEY",

@@ -36,11 +36,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.springframework.boot:spring-boot-devtools")
 	compile("com.luckycatlabs:SunriseSunsetCalculator:1.1")
-	// https://mvnrepository.com/artifact/com.google.collections/google-collections
 	compile group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'
 
 
-	//providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.2.RELEASE'
 
 	// https://mvnrepository.com/artifact/com.google.guava/guava

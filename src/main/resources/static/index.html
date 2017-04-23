@@ -152,9 +152,14 @@
                 }
             });
 
+            $('#sunraisetd_id').html(sunRaiseData.sunRaise);
+            $('#sunsettd_id').html(sunRaiseData.sunSet);
+            $('#datetrtd_id').html(sunRaiseData.todaysDate);
+            $('#daytrtd_id').html(sunRaiseData.todaysDay);
+
             var sunRaiseSource =
             {
-                localdata: sunRaiseData,
+                localdata: sunRaiseData.sunsetSunRaiseDetailses,
                 datatype: "array",
                 datafields: [
                     {name: 'day', type: 'string'},
@@ -686,26 +691,22 @@
             <table>
                 <tr>
                     <td>
-                        <Label ID="lbldate" runat="server" Text=""></Label>
+                        SUNRAISE
                     </td>
-                    <td>SUNRISE
+                    <td id="sunraisetd_id" >
+
                     </td>
-                    <td>
-                        <Label ID="lblsunrise" runat="server" Text=""></Label>
-                        <Label ID="lblnexttime" runat="server" Text="" Visible="false"></Label>
-                    </td>
-                    <td>
-                        <Label ID="lblsunset" runat="server" Text=""></Label>
+                    <td id="sunsettd_id" >
                     </td>
                 </tr>
                 <tr>
-                    <td>DAY
-                    </td>
                     <td>
-                        <Label ID="lblday" runat="server" Text=""></Label>
+                        Day
                     </td>
-                    <td>
-                        <Label ID="lbldayplanet" runat="server" Text=""></Label>
+                    <td id="datetrtd_id" >
+
+                    </td>
+                    <td id="daytrtd_id" >
                     </td>
                 </tr>
                 <tr>
