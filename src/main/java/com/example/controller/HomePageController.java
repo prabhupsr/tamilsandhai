@@ -30,6 +30,11 @@ public class HomePageController {
         return "login.html";
     }
 
+    @RequestMapping("/register")
+    public String getRegistrationPage() {
+        return "registration.html";
+    }
+
     @RequestMapping(value = "/landingPage")
     public String getlogin(
         @ModelAttribute final UserDetails userDetails,

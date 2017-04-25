@@ -32,13 +32,14 @@ public class UserController {
     @Autowired private StockDetailsRepo stockDetailsRepo;
     @Autowired private FavRepo favRepo;
 
-    @RequestMapping(value = "saveUser", method = RequestMethod.GET, produces = {"application/json"})
-    public String saveUser(@ModelAttribute final UserDetails userDetails, final Model model) {
+    @RequestMapping(value = "saveUser", method = RequestMethod.POST, produces = {"application/json"})
+    @ResponseBody
+    public String saveUser(@RequestBody final UserDetails userDetails, final Model model) {
         try {
-            userDetailsRepo.findUserExistence(
+            return userDetailsRepo.findUserExistence(
                 userDetails.getUserName(),
                 userDetails.getPhoneNumber(),
-                userDetails.getEmail()).orElseGet(() -> {
+                userDetails.getEmail()).map(o->"user already exists").orElseGet(() -> {
                 userDetailsRepo.findByUserName(userDetails.getUserName());
                 userDetailsRepo.save(userDetails);
                 final List<Favorites> defaultFavList =
@@ -49,12 +50,10 @@ public class UserController {
                         sd.getSymbol(),
                         userDetails.getUserName())).collect(Collectors.toList());
                 favRepo.save(defaultFavList);
-                return userDetails;
-            }).getUserId();
-            return "login.html";
+                return "Sucessfully Registered";
+            });
         } catch (final Exception e) {
-            model.addAttribute("msg", e);
-            return "login.html";
+            return "Invalid Data provided";
         }
     }
 
