@@ -115,7 +115,7 @@
                     console.log("updating data");
                     jQuery.ajax({
                         type: "POST",
-                        url: "http://localhost:8080/updateFav",
+                        url: "/updateFav",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         data: JSON.stringify(tempfav[event.args.rowindex]),

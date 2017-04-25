@@ -1,0 +1,164 @@
+<!doctype html>
+<html ng-app="demo"  >
+<head>
+    <title>tamil Sandhai</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="hello.js"></script>
+    <meta name="description"
+          content="jQuery Data Grid with custom cell editors. The example shows how to create cell editors"/>
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css"/>
+    <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.edit.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxslider.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatatable.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxangular.js"></script>
+    <script type="text/javascript" src="scripts/demos.js"></script>
+    <script type="text/javascript" src="generatedata.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var dataVal=new Array();
+            var userSelected=new Object();
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/admin/getUserDetails",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data, status, jqXHR) {
+                    dataVal = data;
+                    console.log(data);
+                    console.log(dataVal);
+
+                },
+                error: function (jqXHR, status) {
+                    // error handler
+                }
+            });
+
+            var source =
+            {
+                localdata: dataVal,
+                datafields:
+                        [
+                            { name: 'userName', type: 'string' },
+                            { name: 'phoneNumber', type: 'string' },
+                            { name: 'email', type: 'string' },
+                            { name: 'subscriptionEndDate', type: 'date' }
+                        ],
+                datatype: "array"
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            var columns = [
+                { text: 'First Name', dataField: 'userName', width: 130 },
+                { text: 'Last Name', dataField: 'phoneNumber', width: 130 },
+                { text: 'Product', dataField: 'email', width: 180 },
+                { text: 'Quantity', dataField: 'subscriptionEndDate', width: 200, cellsalign: 'right' }
+            ];
+
+
+            // create data grid.
+            $("#grid").jqxGrid(
+                    {
+                        width: 850,
+                        height: 300,
+                        source: dataAdapter,
+                        selectionmode:"singlerow",
+                        columns: columns
+                    });
+
+            // init buttons.
+            $("#refresh").jqxButton({ theme: theme });
+            $("#clear").jqxButton({ theme: theme });
+
+            $("#refresh").click(function () {
+                jQuery.ajax({
+                    type: "GET",
+                    url: "/admin/getUserDetails",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: false,
+                    success: function (data, status, jqXHR) {
+                        source.localdata = data;
+                        console.log(data);
+                        console.log(dataVal);
+
+                    },
+                    error: function (jqXHR, status) {
+                        // error handler
+                    }
+                });
+
+                //source.localdata = generatedata(500);
+                // passing "cells" to the 'updatebounddata' method will refresh only the cells values when the new rows count is equal to the previous rows count.
+                $("#grid").jqxGrid('updatebounddata', 'cells');
+            });
+
+            $("#clear").click(function () {
+                $("#grid").jqxGrid('clear');
+            });
+            $("#grid").on('rowselect', function (event) {
+                console.log(event.args);
+                userSelected=event.args.row.userName;
+                alert(userSelected);
+                $("#selectrowindex").text(userSelected);
+            });
+
+            $("#enableSubscription").click(function () {
+                var daysVal = parseInt($("#subsVal").val());
+                jQuery.ajax({
+                    type: "GET",
+                    url: "/admin/enableSubscription?name="+userSelected+"&days="+daysVal,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: false,
+                    success: function (data, status, jqXHR) {
+                        $("#updateResult").text(data);
+                        console.log(data);
+
+                    },
+                    error: function (jqXHR, status) {
+                        // error handler
+                    }
+                });
+
+
+            });
+        });
+    </script>
+</head>
+<body class='default'>
+<div id='jqxWidget'>
+    <div id="grid">
+    </div>
+    <div style="margin-top: 10px;">
+        <input id="refresh" type="button" value="Refresh Data" />
+        <input id="clear" type="button" value="Clear" />
+    </div>
+
+    <div style="clear: both; font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif; font-size: 12px;">
+        <span>Selection Log:</span>
+        <div style="margin-top: 10px;">
+            <span>Selected User:</span> <span id="selectrowindex"></span>
+             ----Extend Subscription in Days:
+            <input value="30" style="width: 50px;" maxlength="4" id="subsVal" type="text" />
+            <input id="enableSubscription" type="button" value="Subscribe" />
+            <span id="updateResult"></span>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

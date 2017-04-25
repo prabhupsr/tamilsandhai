@@ -1,10 +1,10 @@
 package com.example.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Date;
-import java.util.Objects;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * @author mchidambaranathan 4/17/2017
@@ -19,10 +19,30 @@ public class UserDetails {
     private String password;
     private String age;
     private Date dataBirth;
+    @Column(unique = true,nullable = false)
+    private Long phoneNumber;
+    @Column(unique = true,nullable = false)
+    //@Email(message = "*Please provide a valid Email")
+    //@NotEmpty(message = "*Please provide an email")
+    private String email;
+
     private Double lastSearchedDailyLevel;
     private Double lastSearchedWeeklyLevel;
+    private Date subscriptionEndDate;
+
+    public Date getSubscriptionEndDate() {
+        return subscriptionEndDate;
+    }
+
+    public void setSubscriptionEndDate(final Date subscriptionEndDate) {
+        this.subscriptionEndDate = new Date(subscriptionEndDate.getTime());
+    }
+
+    @OneToMany(mappedBy = "userDetails",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<UserSubscriptionDetails> userSubscriptionDetailses=new ArrayList<>();
 
     public UserDetails() {
+        this.subscriptionEndDate=getFreeTrailSubscription();
     }
 
     private Boolean isActive=Boolean.TRUE;
@@ -49,6 +69,27 @@ public class UserDetails {
         this.password = password;
         this.isAdmin = isAdmin;
         this.lang = lang;
+        this.subscriptionEndDate=getFreeTrailSubscription();
+    }
+
+    private Date getFreeTrailSubscription() {
+        final Calendar instance = Calendar.getInstance();
+        instance.add(Calendar.DATE,7);
+        instance.set(Calendar.HOUR,0);
+        instance.set(Calendar.MINUTE,0);
+        instance.set(Calendar.SECOND,0);
+        return instance.getTime();
+    }
+
+    public UserDetails(final String userName, final String password, final Boolean isAdmin, final String lang,
+        final Long phoneNumber, final String eMail) {
+        this.userName = userName;
+        this.password = password;
+        this.isAdmin = isAdmin;
+        this.phoneNumber = phoneNumber;
+        this.email = eMail;
+        this.lang = lang;
+        this.subscriptionEndDate=getFreeTrailSubscription();
     }
 
     public Double getLastSearchedDailyLevel() {
@@ -117,6 +158,22 @@ public class UserDetails {
         this.dataBirth = dataBirth;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    public Long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(final Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -145,5 +202,13 @@ public class UserDetails {
             dataBirth,
             lastSearchedDailyLevel,
             lastSearchedWeeklyLevel);
+    }
+
+    public List<UserSubscriptionDetails> getUserSubscriptionDetailses() {
+        return userSubscriptionDetailses;
+    }
+
+    public void setUserSubscriptionDetailses(List<UserSubscriptionDetails> userSubscriptionDetailses) {
+        this.userSubscriptionDetailses = userSubscriptionDetailses;
     }
 }

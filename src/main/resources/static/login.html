@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="demo">
+<html ng-app="demo"  >
 <head>
 	<title>tamil Sandhai</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
@@ -81,9 +81,16 @@
 			background: #43A047;
 		}
 		.form .message {
+			 margin: 15px 0 0;
+			 color: #b3b3b3;
+			 font-size: 12px;
+		 }
+
+		.form .errormessage {
 			margin: 15px 0 0;
-			color: #b3b3b3;
-			font-size: 12px;
+			color: #4CAF50;
+			font-size: 16px;
+			font-weight: 300;
 		}
 		.form .message a {
 			color: #4CAF50;
@@ -152,10 +159,11 @@
 		</form>
 		<form action="/landingPage" class="login-form">
 			<input name="userName" type="text" id="userName" placeholder="userName"/>
-			<input name="password" type="password"  type="password" placeholder="password"/>
+			<input name="password" type="password" placeholder="password"/>
 			<button>login</button>
 			<p class="message">Not registered? <a href="#">Create a n account</a></p>
 		</form>
+
 	</div>
 </div>
 </body>

@@ -54,7 +54,7 @@ public class DataLoader {
         populateDefaultUsers();
         populateFavorites();
         populateStockDetails();
-        populateNiftyStockUpdates();
+       // populateNiftyStockUpdates();
     }
 
     private void loadLevels(final File file, final CrudRepository repo, final boolean isDaily) throws IOException {
@@ -101,9 +101,8 @@ public class DataLoader {
          }
     }
     private void populateDefaultUsers(){
-        userDetailsRepo.save(new UserDetails("pr","123456",false,"english"));
-        userDetailsRepo.save(new UserDetails("pra","123456",true,"english"));
-
+        userDetailsRepo.save(new UserDetails("pr","123456",false,"english", 99999L,"abc@gm.com"));
+        userDetailsRepo.save(new UserDetails("pra","123456",true,"english",99989L,"abdc@gm.com"));
     }
 
     private void populateStockDetails() {

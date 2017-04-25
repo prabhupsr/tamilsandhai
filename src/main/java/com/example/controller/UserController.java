@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.model.Favorites;
-import com.example.model.StockDetails;
 import com.example.model.UserDetails;
 import com.example.model.UserLoginActivityLog;
 import com.example.pojo.BasicUserDetails;
@@ -11,9 +10,12 @@ import com.example.repo.UserDetailsRepo;
 import com.example.repo.UserLoginActivityLogRepo;
 import com.example.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +24,7 @@ import java.util.stream.Stream;
 /**
  * @author mchidambaranathan 4/17/2017
  */
-@RestController
+@Controller
 public class UserController {
 
     @Autowired private UserDetailsRepo userDetailsRepo;
@@ -31,22 +33,33 @@ public class UserController {
     @Autowired private FavRepo favRepo;
 
     @RequestMapping(value = "saveUser", method = RequestMethod.GET, produces = {"application/json"})
-    public Long saveUser(@ModelAttribute final UserDetails userDetails) {
-        return userDetailsRepo.findByUserName(userDetails.getUserName()).orElseGet(() -> {
-            userDetailsRepo.findByUserName(userDetails.getUserName());
-            userDetailsRepo.save(userDetails);
-            final List<Favorites> defaultFavList =
-                stockDetailsRepo.findTenStockDetails().stream().map(sd -> new Favorites(sd.getDailyClose(),
-                    sd.getWeeklyClose(),
-                    sd.getName(),
-                    sd.getSymbol(),
-                    userDetails.getUserName())).collect(Collectors.toList());
-            favRepo.save(defaultFavList);
-            return userDetails;
-        }).getUserId();
+    public String saveUser(@ModelAttribute final UserDetails userDetails, final Model model) {
+        try {
+            userDetailsRepo.findUserExistence(
+                userDetails.getUserName(),
+                userDetails.getPhoneNumber(),
+                userDetails.getEmail()).orElseGet(() -> {
+                userDetailsRepo.findByUserName(userDetails.getUserName());
+                userDetailsRepo.save(userDetails);
+                final List<Favorites> defaultFavList =
+                    stockDetailsRepo.findTenStockDetails().stream().map(sd -> new Favorites(
+                        sd.getDailyClose(),
+                        sd.getWeeklyClose(),
+                        sd.getName(),
+                        sd.getSymbol(),
+                        userDetails.getUserName())).collect(Collectors.toList());
+                favRepo.save(defaultFavList);
+                return userDetails;
+            }).getUserId();
+            return "login.html";
+        } catch (final Exception e) {
+            model.addAttribute("msg", e);
+            return "login.html";
+        }
     }
 
     @RequestMapping(value = "validateUser", method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
     public UserDetails getRangeValues(
         @RequestParam("userName") final String userName,
         @RequestParam("password") final String password) {
@@ -57,6 +70,7 @@ public class UserController {
     @RequestMapping(value = "getUserDetails",
         method = RequestMethod.GET,
         produces = {"application/json"})
+    @ResponseBody
     public BasicUserDetails getUserDetails(final HttpSession session) {
         final String uName = (String) session.getAttribute(Constants.USER_NAME);
         return userDetailsRepo.findByUserName(uName).map(o -> new BasicUserDetails(
@@ -67,6 +81,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "getLoginLog", method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
     public List<UserLoginActivityLog> getLoginLog(@RequestParam("userName") final String userName) {
         final Optional<UserDetails> userDetails =
             userDetailsRepo.findByUserName(userName).filter(UserDetails::getAdmin);
@@ -79,6 +94,36 @@ public class UserController {
             + userName
             + "don't Have Admin Access or not exist")).collect(
             Collectors.toList());
+    }
+
+    @RequestMapping(value = "/admin/getUserDetails", method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
+    public List<BasicUserDetails> getUserDetailsForAdmin() {
+        return userDetailsRepo.findAll()
+            .stream()
+            .filter(o -> !o.getAdmin())
+            .map(o -> new BasicUserDetails(o.getUserName(),
+                o.getSubscriptionEndDate(),
+                o.getPhoneNumber(),
+                o.getEmail()))
+            .collect(Collectors.toList());
+
+    }
+
+
+    @RequestMapping(value = "/admin/enableSubscription", method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
+    public String enableSubscription(@RequestParam("name") final String name,@RequestParam("days")
+    final Integer days) {
+
+        userDetailsRepo.findByUserName(name).ifPresent(o->{
+            final Calendar instance = Calendar.getInstance();
+            instance.add(Calendar.DATE,days);
+            o.setSubscriptionEndDate(instance.getTime());
+            userDetailsRepo.save(o);
+        });
+
+        return "Done";
     }
 
 }
