@@ -22,7 +22,7 @@ public interface StockDetailsRepo extends CrudRepository<StockDetails, Long> {
 
     List<StockDetails> findByType(String type);
 
-    @Query("SELECT t FROM StockDetails t where t.id < 11")
+    @Query("SELECT t FROM StockDetails t where t.id < 6")
     List<StockDetails> findTenStockDetails();
 
     @Override

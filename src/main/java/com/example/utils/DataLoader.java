@@ -54,7 +54,7 @@ public class DataLoader {
         populateDefaultUsers();
         populateFavorites();
         populateStockDetails();
-        populateNiftyStockUpdates();
+        //populateNiftyStockUpdates();
     }
 
     private void loadLevels(final File file, final CrudRepository repo, final boolean isDaily) throws IOException {
@@ -96,7 +96,7 @@ public class DataLoader {
     }
 
     private void populateFavorites() {
-         for(int i=0;i<10;i++){
+         for(int i=0;i<5;i++){
              favRepo.save(new Favorites(124.0d, 123.0d,"name "+i,"symbol"+i,"pr"));
          }
     }

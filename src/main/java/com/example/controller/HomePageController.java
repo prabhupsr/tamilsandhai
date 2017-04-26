@@ -5,14 +5,15 @@ import com.example.model.UserLoginActivityLog;
 import com.example.repo.UserDetailsRepo;
 import com.example.repo.UserLoginActivityLogRepo;
 import com.example.utils.Constants;
+import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -35,6 +36,13 @@ public class HomePageController {
         return "registration.html";
     }
 
+    @RequestMapping("/getMemoryUsed")
+    @ResponseBody
+    public ImmutableMap<String, Long> getMemoryDetails() {
+        final Runtime runtime = Runtime.getRuntime();
+        return ImmutableMap.of("freeMemory",runtime.freeMemory()/(1024*1024),"Max memory",runtime.maxMemory()/(1024*1024),"totalMemory",runtime.totalMemory()/(1024*1024));
+    }
+
     @RequestMapping(value = "/landingPage")
     public String getlogin(
         @ModelAttribute final UserDetails userDetails,
@@ -49,7 +57,7 @@ public class HomePageController {
         }
         final Optional<String> viewName = byUserName.filter(ud -> new Date().getTime() <= ud.getSubscriptionEndDate()
             .getTime())
-            .map(o -> "landingpage.html");
+            .map(o -> "testt.html");
 
         viewName.ifPresent(obj->byUserName.map(o -> new UserLoginActivityLog(
             o.getUserId(),
