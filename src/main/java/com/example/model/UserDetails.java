@@ -15,9 +15,11 @@ public class UserDetails {
     @Id
     @GeneratedValue
     private Long userId;
+    private String name;
     private String userName;
     private String password;
     private String age;
+    private String star;
     private Date dataBirth;
     @Column(unique = true,nullable = false)
     private Long phoneNumber;
@@ -29,6 +31,23 @@ public class UserDetails {
     private Double lastSearchedDailyLevel;
     private Double lastSearchedWeeklyLevel;
     private Date subscriptionEndDate;
+
+    public String getStar() {
+        return star;
+    }
+
+    public void setStar(final String star) {
+        this.star = star;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
 
     public Date getSubscriptionEndDate() {
         return subscriptionEndDate;

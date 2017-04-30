@@ -1,0 +1,616 @@
+<html ng-app="demo" xmlns="http://www.w3.org/1999/xhtml">
+<head  runat="server">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="js/hello.js"></script>
+    <meta name="description"
+          content="jQuery Data Grid with custom cell editors. The example shows how to create cell editors"/>
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css"/>
+    <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.edit.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxslider.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatatable.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxangular.js"></script>
+    <script type="text/javascript" src="scripts/demos.js"></script>
+    <script type="text/javascript" src="js/generatedata.js"></script>
+    <script type="text/javascript">
+
+    </script>
+
+
+    <style type="text/css">
+        .lab1 {
+            border: 1px solid black;
+            font-size: 11px;
+        }
+
+        .lab2 {
+            font-size: large;
+        }
+
+        .lab3 {
+            border: 1px solid black;
+            font-size: 15px;
+        }
+
+        .labchan {
+            border: 1px solid black;
+            font-size: 15px;
+            background-color: red;
+            margin-left: 120px;
+        }
+
+        .Center {
+            background-color: #50c878;
+            width: 920px;
+            position: absolute;
+            margin-top: 280px;
+        }
+
+        .nameRes {
+            text-align: center;
+            width: 120px;
+            background-color: #50c878;
+            height: 16px;
+            border: 2px solid black;
+            font-size: 15px;
+        }
+
+        .lab {
+            display: inline-block;
+            float: right;
+            font-size: x-small;
+        }
+
+        .name {
+            border: 1px solid black;
+            width: 122px;
+            font-size: small;
+        }
+
+        .namepiv {
+            border: 2px solid black;
+            width: 176px;
+            text-align: center;
+            background-color: Yellow;
+            height: 16px;
+            float: left;
+            font-size: 15px;
+        }
+
+        .namesupp {
+            text-align: center;
+            width: 120px;
+            background-color: Red;
+            height: 16px;
+            border: 2px solid black;
+            font-size: 15px;
+        }
+
+        .DaySupp3 {
+            width: 120px;
+            float: left;
+            margin-top: 242px;
+        }
+
+        .DaySupp2 {
+            width: 120px;
+            float: left;
+            margin-top: 206px;
+            margin-left: 4px;
+        }
+
+        .DaySupp1 {
+            width: 140px;
+            float: left;
+            margin-top: 170px;
+            margin-left: 4px;
+        }
+
+        .DailyPivot {
+            margin-top: 132px;
+            width: 171px;
+            float: left;
+            margin-left: -17px;
+        }
+
+        .DayRes1 {
+            width: 120px;
+            float: left;
+            margin-top: 94px;
+            margin-left: 7px;
+        }
+
+        .DayRes2 {
+            width: 120px;
+            float: left;
+            margin-top: 58px;
+            margin-left: 4px;
+        }
+
+        .DayRes3 {
+            width: 120px;
+            float: left;
+            margin-top: 22px;
+            margin-left: 4px;
+        }
+
+        .WeekRes1 {
+            margin-left: -120px;
+            margin-top: 320px;
+            width: 121px;
+            float: left;
+        }
+
+        .WeekRes2 {
+            margin-left: -243px;
+            margin-top: 357px;
+            width: 121px;
+            float: left;
+        }
+
+        .WeekRes3 {
+            margin-left: -366px;
+            margin-top: 394px;
+            width: 121px;
+            float: left;
+        }
+
+        .WeeklyPivot {
+            margin-left: -545px;
+            margin-top: 432px;
+            width: 171px;
+            float: left;
+        }
+
+        .WeekSupp3 {
+            margin-top: 544px;
+            margin-left: -914px;
+            width: 132px;
+            float: left;
+        }
+
+        .WeekSupp2 {
+            margin-top: 507px;
+            margin-left: -791px;
+            width: 132px;
+            float: left;
+        }
+
+        .WeekSupp1 {
+            margin-top: 471px;
+            margin-left: -668px;
+            width: 132px;
+            float: left;
+        }
+
+        .wrapper1 {
+            margin-left: 185px;
+            margin-right: 0px;
+            width: 1285px;
+            margin-top: 10px;
+        }
+
+
+        .name1 {
+            width: 50px;
+            float: left;
+            margin-left: 70px;
+            margin-top: -15px;
+            font-size: x-small;
+            text-align: right;
+        }
+
+        .name2 {
+            width: 50px;
+            float: left;
+            margin-top: -15px;
+            font-size: 10px;
+            text-align: left;
+        }
+
+        table {
+            border: 1px solid black;
+            width: 240px;
+            font-size: x-small;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 100px;
+            font-size: x-small;
+            text-align: left;
+        }
+
+        .style2 {
+            width: 200px;
+            text-align: center;
+            background-color: Yellow;
+        }
+
+        .style3 {
+            width: 73px;
+        }
+
+        .style4 {
+            width: 64px;
+        }
+
+        .style5 {
+            width: 111px;
+            height: 95px;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            position: static;
+            overflow: hidden;
+        }
+      
+
+    </style>
+    <title></title>
+</head>
+<body ng-controller="Hello">
+    <form id="form1" runat="server">
+        <div style="width: 185px; height: 40px; background-color: #008D4A; margin-top: -10px; text-align: center">
+            <a href="www.tamilsandhai.com" style="text-decoration: none; color: white; font-weight: 500; text-align: center; font-size: 20px">TAMIL SANDHAI</a>
+        </div>
+
+   
+        <div style="width: 1155px; height: 40px; margin-top: -40px; margin-left: 185px; background-color: #01A65A">
+            <div>
+                <img src="images/pro.jpg" style="border-radius: 50px; float:right;margin-right:130px; margin-top: 5px" height="30" class="user-image" alt="User Image ">
+            </div>
+            <div style="margin-top:15px;margin-right:-90px; float: right; width: 53px;">
+                <span id="username" style="color: white; margin-top: 5px">Tamil</span>
+            </div>
+
+        </div>
+        <div style="float: left; background-color: #222D33; width: 185px; height: 632px"></div>
+        <div ng-controller="Hello">
+            <div class="wrapper1">
+                <div class="row">
+                    <div class="DaySupp3">
+
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lbldailysupname6" ng-bind="dailyArray[0].name" style="color:Red;">x</span>
+                        </div>
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lbldailysupname7" ng-bind="dailyArray[1].name" style="color:Red;">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lbldailysup7" ng-bind="dailyArray[0].level">x</span>
+                            <span id="ContentPlaceHolder1_lbldailysup6" ng-bind="dailyArray[1].level" class="lab">x</span>
+                        </div>
+                        <div class="namesupp">
+                            <span id="ContentPlaceHolder1_lbldaysup3">SUPPORT 3</span>
+                        </div>
+                    </div>
+                    <div class="DaySupp2">
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lbldailysupname4" ng-bind="dailyArray[2].name" style="color:Red;">x</span>
+                        </div>
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lbldailysupname5" ng-bind="dailyArray[3].name" style="color:Red;">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lbldailysup5" ng-bind="dailyArray[2].level">x</span>
+                            <span id="ContentPlaceHolder1_lbldailysup4" ng-bind="dailyArray[3].level" class="lab">x</span>
+                        </div>
+                        <div class="namesupp">
+                            <span id="ContentPlaceHolder1_Label5">SUPPORT 2</span>
+                        </div>
+                    </div>
+                    <div class="DaySupp1">
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lbldailysupname3" ng-bind="dailyArray[4].name" style="color:Red;">x</span>
+                        </div>
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lbldailysupname2" ng-bind="dailyArray[5].name" style="color:Red;">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lbldailysup3" ng-bind="dailyArray[4].level">x</span>
+                            <span id="ContentPlaceHolder1_lbldailysup2"  ng-bind="dailyArray[5].level" class="lab">x</span>
+                        </div>
+                        <div class="namesupp">
+                            <span id="ContentPlaceHolder1_lbldaysup1">SUPPORT 1</span>
+                        </div>
+                    </div>
+                    <div class="DailyPivot">
+                        <div style="float: left; width: 57px; margin-top: -20px; border: 2px solid #000000; height: 22px; background-color: Red">
+                            <span id="ContentPlaceHolder1_lbldailysup1" ng-bind="dailyArray[6].level">x</span>
+                        </div>
+                        <div style="float: left; margin-left: -55px; margin-top: -40px; width: 49px; font-size: x-small">
+                            <span id="ContentPlaceHolder1_lbldailysupname1" style="color:Red;" ng-bind="dailyArray[6].name">x</span>
+                        </div>
+                        <div style="float: left; margin-top: -20px; width: 49px; font-size: x-small">
+                            <span id="ContentPlaceHolder1_lbldailypivotname" style="color:Red;" ng-bind="dailyArray[7].name">x</span>
+                        </div>
+                        <div style="text-align: center; float: left; width: 57px; border: 2px solid black; height: 22px;">
+                            <span id="ContentPlaceHolder1_lbldailypivot" ng-bind="dailyArray[7].level">x</span>
+                        </div>
+                        <div style="float: right; width: 49px; margin-top: -20px; text-align: right; margin-top: -40px; font-size: x-small">
+                            <span id="ContentPlaceHolder1_lbldailyresname1" style="color:Red;" ng-bind="dailyArray[8].name">x</span>
+                        </div>
+                        <div style="float: left; text-align: center; margin-top: -20px; width: 57px; border: 2px solid black ; height: 22px; background-color: Green">
+                            <span id="ContentPlaceHolder1_lbldailyres1" ng-bind="dailyArray[8].level">x</span>
+                        </div>
+                        <div class="namepiv">
+                            <span id="ContentPlaceHolder1_lbldaiypivoit">PIVOT</span>
+                        </div>
+                    </div>
+                    <div class="DayRes1">
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lbldailyresname2" style="color:Red;" ng-bind="dailyArray[9].name">x</span>
+                        </div>
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lbldailyresname3" style="color:Red;" ng-bind="dailyArray[10].name">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lbldailyres2" ng-bind="dailyArray[9].level">x</span>
+                            <span id="ContentPlaceHolder1_lbldailyres3" class="lab" ng-bind="dailyArray[10].level">x</span>
+                        </div>
+                        <div class="nameRes">
+                            <span id="ContentPlaceHolder1_lbldayres3">RESISTANCE 1</span>
+                        </div>
+                    </div>
+                    <div class="DayRes2">
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lbldailyresname4" style="color:Red;" ng-bind="dailyArray[11].name">x</span>
+                        </div>
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lbldailyresname5" style="color:Red;" ng-bind="dailyArray[12].name">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lbldailyres4" ng-bind="dailyArray[11].level">x</span>
+                            <span id="ContentPlaceHolder1_lbldailyres5" class="lab" ng-bind="dailyArray[12].level">x</span>
+                        </div>
+                        <div class="nameRes">
+                            <span id="ContentPlaceHolder1_lbldayres2">RESISTANCE 2</span>
+                        </div>
+                    </div>
+                    <div class="DayRes3">
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lbldailyresname6" style="color:Red;" ng-bind="dailyArray[13].name">x</span>
+                        </div>
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lbldailyresname7" style="color:Red;" ng-bind="dailyArray[14].name">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lbldailyres6" ng-bind="dailyArray[13].level">x</span>
+                            <span id="ContentPlaceHolder1_lbldailyres7" class="lab" ng-bind="dailyArray[14].level">x</span>
+                        </div>
+                        <div class="nameRes">
+                            <span id="ContentPlaceHolder1_lbldayres1">RESISTANCE 3</span>
+                        </div>
+                    </div>
+                    <div class="Center">
+                        &nbsp;
+                    </div>
+                    <div style="float: left; font-size: x-small; margin-left: -890px; margin-top: 0px; width: 700px;">
+                        <span id="dropDownNifty">
+                            <select ng-model="selectedNiftyStock"
+                                ng-options="niftyStock.name for niftyStock in niftyDetails track by niftyStock.symbol"
+                                ng-change="updateDailyAndWeeklyLevels()">
+                                <option value="">Select Nifty Stock.....</option>
+                            </select>
+                        </span>
+                        <span id="ContentPlaceHolder1_Label8">WeeklyClose</span>
+                        <input name="ctl00$ContentPlaceHolder1$txtweeklyclose" type="number"
+                            ng-model="rangeVal.weeklyClose"
+                            ng-blur="getdetails(rangeVal.weeklyClose,'weekly')" style="height: 16px; width: 80px;" />
+                        <span id="ContentPlaceHolder1_Label9">DailyClose</span>
+                        <input name="ctl00$ContentPlaceHolder1$txtdailyclose" type="number"
+                            ng-model="rangeVal.dailyClose"
+                            ng-blur="getdetails(rangeVal.dailyClose,'daily')" style="height: 16px; width: 80px;" />
+                        <span id="ContentPlaceHolder1_Label2" class=""></span>
+                        <span style="margin-left: 10px; border: groove; font-weight: bolder" id="selected stock">{{selectedStock}}-DAY LEVEL </span>
+                    </div>
+                    <span style="margin-left: -900px;margin-bottom:-50px">
+                <img class="style5" src="images/degree.png" /></span>
+                    <div class="WeekRes3">
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lblweeklyresname2" style="color: Red;" ng-bind="weeklyArray[0].name">x</span>
+                        </div>
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lblweeklyresname3" style="color: Red;" ng-bind="weeklyArray[1].name">x</span>
+
+
+                        </div>
+                        <div class="name">
+
+                            <span id="ContentPlaceHolder1_lblweeklyres3" class="lab" ng-bind="weeklyArray[0].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres2" ng-bind="weeklyArray[1].level">x</span>
+                        </div>
+                        <div class="nameRes">
+                            <span id="ContentPlaceHolder1_Lblweekres1">RESISTANCE 1</span>
+                        </div>
+                    </div>
+                    <div class="WeekRes2">
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lblweeklyresname4" style="color: Red;" ng-bind="weeklyArray[2].name">x</span>
+                        </div>
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lblweeklyresname5" style="color: Red;" ng-bind="weeklyArray[3].name">x</span>
+
+
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lblweeklyres5" class="lab" ng-bind="weeklyArray[2].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres4" ng-bind="weeklyArray[3].level">x</span>
+
+                        </div>
+                        <div class="nameRes">
+                            <span id="ContentPlaceHolder1_lblweekres2">RESISTANCE 2</span>
+                        </div>
+                    </div>
+                    <div class="WeekRes1">
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lblweeklyresname6" style="color: Red;" ng-bind="weeklyArray[4].name">x</span>
+
+                        </div>
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lblweeklyresname7" style="color: Red;" ng-bind="weeklyArray[5].name">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lblweeklyres6" ng-bind="weeklyArray[4].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres7" class="lab" ng-bind="weeklyArray[5].level">x</span>
+                        </div>
+                        <div class="nameRes">
+                            <span id="ContentPlaceHolder1_lblweekres3">RESISTANCE 3</span>
+                        </div>
+                    </div>
+                    <div class="WeeklyPivot">
+                        <div style="float: left; width: 57px; margin-top: -20px; border: 2px solid #000000; height: 16px; background-color: Red">
+                            <span id="ContentPlaceHolder1_lblweeklysup1" ng-bind="weeklyArray[6].level">x</span>
+                        </div>
+                        <div style="float: left; margin-left: -55px; margin-top: -40px; width: 49px; font-size: x-small">
+                            <span id="ContentPlaceHolder1_lblweeklysupname1" style="color: Red;" ng-bind="weeklyArray[6].name">x</span>
+                        </div>
+                        <div style="float: left; margin-top: -20px; width: 49px; font-size: x-small">
+                            <span id="ContentPlaceHolder1_lblweeklypivname" style="color: Red;" ng-bind="weeklyArray[7].name">x</span>
+                        </div>
+                        <div style="text-align: center; margin-left: 60px; float: left; width: 57px; border: 2px solid black; height: 16px;">
+                            <span id="ContentPlaceHolder1_lblweeklypiviot" ng-bind="" ng-bind="weeklyArray[7].level">x</span>
+                        </div>
+                        <div style="float: right; width: 49px; margin-top: -20px; text-align: right; margin-top: -40px; font-size: x-small">
+                            <span id="ContentPlaceHolder1_lblweeklyresname1" style="color: Red;" ng-bind="weeklyArray[8].name">x</span>
+                        </div>
+                        <div style="margin-left: 118px; text-align: center; margin-top: -20px; width: 57px; border: 2px solid black; height: 16px; background-color: #50c878; font-size: x-small">
+                            <span id="ContentPlaceHolder1_lblweeklyres1" ng-bind="weeklyArray[8].level" >x</span>
+                        </div>
+                        <div class="namepiv">
+                            <span id="ContentPlaceHolder1_lblWeekpivoit">PIVOT</span>
+                        </div>
+                    </div>
+                    <div class="WeekSupp3">
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lblweeklysupname7" style="color: Red;" ng-bind="weeklyArray[9].name">x</span>
+                        </div>
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lblweeklysupname6" style="color: Red;" ng-bind="weeklyArray[10].name">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lblweeklysup7" ng-bind="weeklyArray[9].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysup6"
+                                class="lab" ng-bind="weeklyArray[10].level">x</span>
+                        </div>
+                        <div class="namesupp">
+                            <span id="ContentPlaceHolder1_lblweeksup3">SUPPORT 3</span>
+                        </div>
+                    </div>
+                    <div class="WeekSupp2">
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lblweeklysupname4" style="color: Red;" ng-bind="weeklyArray[11].name">x</span>
+                        </div>
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lblweeklysupname5" style="color: Red;" ng-bind="weeklyArray[12].name">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lblweeklysup5" ng-bind="weeklyArray[11].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysup4"
+                                class="lab" ng-bind="weeklyArray[12].level">x</span>
+                        </div>
+                        <div class="namesupp">
+                            <span id="ContentPlaceHolder1_lblweeksup2">SUPPORT 2</span>
+                        </div>
+                    </div>
+                    <div class="WeekSupp1">
+                        <div class="name1">
+                            <span id="ContentPlaceHolder1_lblweeklysupname2" style="color: Red;" ng-bind="weeklyArray[13].name">x</span>
+                        </div>
+                        <div class="name2">
+                            <span id="ContentPlaceHolder1_lblweeklysupname3" style="color: Red;" ng-bind="weeklyArray[14].name">x</span>
+                        </div>
+                        <div class="name">
+                            <span id="ContentPlaceHolder1_lblweeklysup3" ng-bind="weeklyArray[13].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysup2"
+                                class="lab" ng-bind="weeklyArray[14].level">x</span>
+                        </div>
+                        <div class="namesupp">
+                            <span id="ContentPlaceHolder1_lblweeksup1">SUPPORT 1</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 310px; float: left; margin-left: -850px; font-size: small">
+                        <span id="weeklylevel" style="font-weight: bolder">{{selectedStock}}-WEEKLY LEVEL</span>
+                    </div>
+                    <div style="margin-top: 332px; border: 2px solid black; float: left; margin-left: -895px; font-size: small; height: 50px; width: 130px; text-align: center">
+                        <br />
+                        <span id="weeklytrend" style="font-weight: bolder">WEEKLY TREND</span>
+                    </div>
+                    <div id="Trend1" runat="server"
+                        style="margin-top: 332px; border: 2px solid black; float: left; margin-left: -763px; height: 50px; width: 130px; text-align: center; font-weight: bold; font-size: 22px; font-family: Comic Sans MS">
+                        <span id="spantrend"></span>
+                    </div>
+                    <div style="margin-top: 298px; float: left; height: 40px; background-color: Yellow; width: 250px; margin-left: -520px; border: 2px solid black; text-align: center; font-weight: bold; font-size: 25px">
+                        <span id="Tamilsandhai">TAMIL SANDHAI</span>
+                    </div>
+                    <div style="float: left">
+                        <table>
+                            <tr>
+                                <td>SUNRAISE
+                                </td>
+                                <td id="sunraisetd_id"></td>
+                                <td id="sunsettd_id"></td>
+                            </tr>
+                            <tr>
+                                <td>Day
+                                </td>
+                                <td id="datetrtd_id"></td>
+                                <td id="daytrtd_id"></td>
+                            </tr>
+                            <tr>
+                                <td>NAKSHATRA
+                                </td>
+                                <td>
+                                    <label id="lblnat1" runat="server" text=""></label>
+                                </td>
+                                <td>
+                                    <label id="lblnat2" runat="server" text=""></label>
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td style="text-align: center; background: aliceblue;">Horai</td>
+                            </tr>
+                        </table>
+                        <table id="sunRaiseTableId"></table>
+                        <div style="text-align: center; background: aliceblue;">Favorites</div>
+                        <div>
+                            <div id="favGrid"></div>
+                            <div style="font-size: 12px; font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif; margin-top: 30px;">
+                                <div id="cellbegineditevent"></div>
+                                <div style="margin-top: 10px;" id="cellendeditevent"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: -40px; background-color: #ECEFF4; margin-left: 190px; height: 40px; width: 1155px; float: left">
+            <div class="pull-right hidden-xs">
+                <br />
+                <b>Version</b> 2.3.0
+            </div>
+
+            <br />
+            <strong style="margin-top: 5px">Copyright &copy; 2017-2018 <a href="http://www.Tamilsandhai.com">TamilSandhai</a>.</strong> All rights
+    reserved.
+        </div>
+    </form>
+</body>
+</html>

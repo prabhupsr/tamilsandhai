@@ -5,6 +5,7 @@ import com.example.repo.FavRepo;
 import com.example.repo.StockDetailsRepo;
 import com.example.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,11 +27,10 @@ public class StockDetailsUpdater {
 
     private final Pattern pattern = Pattern.compile(".*lastPrice\":\"([^']*)\",\"pChange.*");
 
-    // @Scheduled(cron = "*/5 * * * * *")
-    private void testScedule() {
+    @Scheduled(cron = "0 15 16 ? * MON-FRI")
+    private void scheduledNiftyUpdate() {
         Constants.NIFTY_COMPANY_SYMBOLS.stream().map(s -> getCloseValues(s)).collect(
             Collectors.toList());
-
     }
 
     public void updateStockDetails(final StockDetails stockDetails) {
@@ -39,6 +39,7 @@ public class StockDetailsUpdater {
             if(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)==Calendar.FRIDAY || Objects.isNull(stockDetails.getWeeklyClose())){
                 stockDetails.setWeeklyClose(v);
             }
+            stockDetails.setLastUpdated(Calendar.getInstance().getTime());
             stockDetailsRepo.save(stockDetails);
             favRepo.updateBySymbol(stockDetails.getSymbol(), v);
         });

@@ -3,6 +3,8 @@ package com.example.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author mchidambaranathan 4/21/2017
@@ -17,6 +19,15 @@ public class StockDetails {
     private Double dailyClose;
     private Double weeklyClose;
     private String type;
+    private Date lastUpdated;
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(final Date lastUpdated) {
+        this.lastUpdated =new Date(lastUpdated.getTime());
+    }
 
     public StockDetails() {
     }
@@ -25,6 +36,7 @@ public class StockDetails {
         this.name = name;
         this.symbol = symbol;
         this.type = type;
+        this.lastUpdated= Calendar.getInstance().getTime();
     }
 
     public Long getId() {

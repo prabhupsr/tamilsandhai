@@ -253,15 +253,16 @@
                 <div ng-controller="Hello">
                     <div class="wrapper1">
                         <div class="DaySupp3">
+
                             <div class="name1">
-                                <span id="ContentPlaceHolder1_lbldailysupname6" style="color:Red;">{{dailyArray[0].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysupname6" ng-bind="dailyArray[0].name" style="color:Red;">x</span>
                             </div>
                             <div class="name2">
-                                <span id="ContentPlaceHolder1_lbldailysupname7" style="color:Red;">{{dailyArray[1].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysupname7" ng-bind="dailyArray[1].name" style="color:Red;">x</span>
                             </div>
                             <div class="name">
-                                <span id="ContentPlaceHolder1_lbldailysup7">{{dailyArray[0].level}}</span>
-                                <span id="ContentPlaceHolder1_lbldailysup6" class="lab">{{dailyArray[1].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysup7" ng-bind="dailyArray[0].level">x</span>
+                                <span id="ContentPlaceHolder1_lbldailysup6" ng-bind="dailyArray[1].level" class="lab">x</span>
                             </div>
                             <div class="namesupp">
                                 <span id="ContentPlaceHolder1_lbldaysup3">SUPPORT 3</span>
@@ -269,14 +270,14 @@
                         </div>
                         <div class="DaySupp2">
                             <div class="name1">
-                                <span id="ContentPlaceHolder1_lbldailysupname4" style="color:Red;">{{dailyArray[2].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysupname4" ng-bind="dailyArray[2].name" style="color:Red;">x</span>
                             </div>
                             <div class="name2">
-                                <span id="ContentPlaceHolder1_lbldailysupname5" style="color:Red;">{{dailyArray[3].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysupname5" ng-bind="dailyArray[3].name" style="color:Red;">x</span>
                             </div>
                             <div class="name">
-                                <span id="ContentPlaceHolder1_lbldailysup5">{{dailyArray[2].level}}</span>
-                                <span id="ContentPlaceHolder1_lbldailysup4" class="lab">{{dailyArray[3].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysup5" ng-bind="dailyArray[2].level">x</span>
+                                <span id="ContentPlaceHolder1_lbldailysup4" ng-bind="dailyArray[3].level" class="lab">x</span>
                             </div>
                             <div class="namesupp">
                                 <span id="ContentPlaceHolder1_Label5">SUPPORT 2</span>
@@ -284,14 +285,14 @@
                         </div>
                         <div class="DaySupp1">
                             <div class="name2">
-                                <span id="ContentPlaceHolder1_lbldailysupname3" style="color:Red;">{{dailyArray[4].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysupname3" ng-bind="dailyArray[4].name" style="color:Red;">x</span>
                             </div>
                             <div class="name1">
-                                <span id="ContentPlaceHolder1_lbldailysupname2" style="color:Red;">{{dailyArray[5].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysupname2" ng-bind="dailyArray[5].name" style="color:Red;">x</span>
                             </div>
                             <div class="name">
-                                <span id="ContentPlaceHolder1_lbldailysup3">{{dailyArray[4].level}}</span>
-                                <span id="ContentPlaceHolder1_lbldailysup2" class="lab">{{dailyArray[5].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysup3" ng-bind="dailyArray[4].level">x</span>
+                                <span id="ContentPlaceHolder1_lbldailysup2"  ng-bind="dailyArray[5].level" class="lab">x</span>
                             </div>
                             <div class="namesupp">
                                 <span id="ContentPlaceHolder1_lbldaysup1">SUPPORT 1</span>
@@ -299,22 +300,22 @@
                         </div>
                         <div class="DailyPivot">
                             <div style="float: left; width: 57px; margin-top: -20px; border: 2px solid #000000; height: 22px; background-color: Red">
-                                <span id="ContentPlaceHolder1_lbldailysup1">{{dailyArray[6].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysup1" ng-bind="dailyArray[6].level">x</span>
                             </div>
                             <div style="float: left; margin-left: -55px; margin-top: -40px; width: 49px; font-size: x-small">
-                                <span id="ContentPlaceHolder1_lbldailysupname1" style="color:Red;">{{dailyArray[6].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailysupname1" style="color:Red;" ng-bind="dailyArray[6].name">x</span>
                             </div>
                             <div style="float: left; margin-top: -20px; width: 49px; font-size: x-small">
-                                <span id="ContentPlaceHolder1_lbldailypivotname" style="color:Red;">{{dailyArray[7].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailypivotname" style="color:Red;" ng-bind="dailyArray[7].name">x</span>
                             </div>
                             <div style="text-align: center; float: left; width: 57px; border: 2px solid black; height: 22px;">
-                                <span id="ContentPlaceHolder1_lbldailypivot">{{dailyArray[7].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailypivot" ng-bind="dailyArray[7].level">x</span>
                             </div>
                             <div style="float: right; width: 49px; margin-top: -20px; text-align: right; margin-top: -40px; font-size: x-small">
-                                <span id="ContentPlaceHolder1_lbldailyresname1" style="color:Red;">{{dailyArray[8].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyresname1" style="color:Red;" ng-bind="dailyArray[8].name">x</span>
                             </div>
-                            <div style="float: left; text-align: center; margin-top: -20px; width: 57px; border: 2px solid black; height: 22px; background-color: Green">
-                                <span id="ContentPlaceHolder1_lbldailyres1">{{dailyArray[8].level}}</span>
+                            <div style="float: left; text-align: center; margin-top: -20px; width: 57px; border: 2px solid black ; height: 22px; background-color: Green">
+                                <span id="ContentPlaceHolder1_lbldailyres1" ng-bind="dailyArray[8].level">x</span>
                             </div>
                             <div class="namepiv">
                                 <span id="ContentPlaceHolder1_lbldaiypivoit">PIVOT</span>
@@ -322,14 +323,14 @@
                         </div>
                         <div class="DayRes1">
                             <div class="name2">
-                                <span id="ContentPlaceHolder1_lbldailyresname2" style="color:Red;">{{dailyArray[9].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyresname2" style="color:Red;" ng-bind="dailyArray[9].name">x</span>
                             </div>
                             <div class="name1">
-                                <span id="ContentPlaceHolder1_lbldailyresname3" style="color:Red;">{{dailyArray[10].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyresname3" style="color:Red;" ng-bind="dailyArray[10].name">x</span>
                             </div>
                             <div class="name">
-                                <span id="ContentPlaceHolder1_lbldailyres2">{{dailyArray[9].level}}</span>
-                                <span id="ContentPlaceHolder1_lbldailyres3" class="lab">{{dailyArray[10].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyres2" ng-bind="dailyArray[9].level">x</span>
+                                <span id="ContentPlaceHolder1_lbldailyres3" class="lab" ng-bind="dailyArray[10].level">x</span>
                             </div>
                             <div class="nameRes">
                                 <span id="ContentPlaceHolder1_lbldayres3">RESISTANCE 1</span>
@@ -337,14 +338,14 @@
                         </div>
                         <div class="DayRes2">
                             <div class="name2">
-                                <span id="ContentPlaceHolder1_lbldailyresname4" style="color:Red;">{{dailyArray[11].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyresname4" style="color:Red;" ng-bind="dailyArray[11].name">x</span>
                             </div>
                             <div class="name1">
-                                <span id="ContentPlaceHolder1_lbldailyresname5" style="color:Red;">{{dailyArray[12].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyresname5" style="color:Red;" ng-bind="dailyArray[12].name">x</span>
                             </div>
                             <div class="name">
-                                <span id="ContentPlaceHolder1_lbldailyres4">{{dailyArray[11].level}}</span>
-                                <span id="ContentPlaceHolder1_lbldailyres5" class="lab">{{dailyArray[12].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyres4" ng-bind="dailyArray[11].level">x</span>
+                                <span id="ContentPlaceHolder1_lbldailyres5" class="lab" ng-bind="dailyArray[12].level">x</span>
                             </div>
                             <div class="nameRes">
                                 <span id="ContentPlaceHolder1_lbldayres2">RESISTANCE 2</span>
@@ -352,14 +353,14 @@
                         </div>
                         <div class="DayRes3">
                             <div class="name2">
-                                <span id="ContentPlaceHolder1_lbldailyresname6" style="color:Red;">{{dailyArray[13].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyresname6" style="color:Red;" ng-bind="dailyArray[13].name">x</span>
                             </div>
                             <div class="name1">
-                                <span id="ContentPlaceHolder1_lbldailyresname7" style="color:Red;">{{dailyArray[14].name}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyresname7" style="color:Red;" ng-bind="dailyArray[14].name">x</span>
                             </div>
                             <div class="name">
-                                <span id="ContentPlaceHolder1_lbldailyres6">{{dailyArray[13].level}}</span>
-                                <span id="ContentPlaceHolder1_lbldailyres7" class="lab">{{dailyArray[14].level}}</span>
+                                <span id="ContentPlaceHolder1_lbldailyres6" ng-bind="dailyArray[13].level">x</span>
+                                <span id="ContentPlaceHolder1_lbldailyres7" class="lab" ng-bind="dailyArray[14].level">x</span>
                             </div>
                             <div class="nameRes">
                                 <span id="ContentPlaceHolder1_lbldayres1">RESISTANCE 3</span>
@@ -626,7 +627,7 @@
 <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-<script src="hello.js"></script>
+<script src="js/hello.js"></script>
 <meta name="description"
       content="jQuery Data Grid with custom cell editors. The example shows how to create cell editors"/>
 <link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css"/>
@@ -647,7 +648,7 @@
 <script type="text/javascript" src="jqwidgets/jqxdatatable.js"></script>
 <script type="text/javascript" src="jqwidgets/jqxangular.js"></script>
 <script type="text/javascript" src="scripts/demos.js"></script>
-<script type="text/javascript" src="generatedata.js"></script>
+<script type="text/javascript" src="js/generatedata.js"></script>
 <script type="text/javascript">
 
 </script>

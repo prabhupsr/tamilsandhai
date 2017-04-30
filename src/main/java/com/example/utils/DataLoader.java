@@ -54,7 +54,7 @@ public class DataLoader {
         populateDefaultUsers();
         populateFavorites();
         populateStockDetails();
-        //populateNiftyStockUpdates();
+        populateNiftyStockUpdates();
     }
 
     private void loadLevels(final File file, final CrudRepository repo, final boolean isDaily) throws IOException {
