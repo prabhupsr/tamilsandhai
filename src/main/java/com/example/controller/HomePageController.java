@@ -32,14 +32,6 @@ public class HomePageController {
         return "newHomePage.html";
     }
 
-   /* @RequestMapping(value = "/",method = RequestMethod.POST)
-    public String getlogin(
-        @RequestBody final UserDetails userDetails,
-        final HttpSession session)
-    {
-        return "newLandingPage.html";
-    }*/
-
     @RequestMapping("/register")
     public String getRegistrationPage() {
         return "registration.html";
@@ -56,15 +48,6 @@ public class HomePageController {
             "totalMemory",
             runtime.totalMemory() / (1024 * 1024));
     }
-
-   /* @RequestMapping(value = "/landingPage",method = RequestMethod.POST,consumes = MediaType
-   .APPLICATION_FORM_URLENCODED_VALUE)
-    public String getlogin(
-        @RequestParam final MultiValueMap paramMap,
-        final HttpSession session) {
-            String sss="";
-        return Optional.ofNullable(paramMap).map(mm->"txt").orElse("newHomePage.html");
-    }*//**/
 
     @RequestMapping(value = "/landingPage", method = RequestMethod.POST, produces = {"application/json"})
     @ResponseBody

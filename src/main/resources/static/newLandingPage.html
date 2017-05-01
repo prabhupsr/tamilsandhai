@@ -271,11 +271,9 @@
 
    
         <div style="width: 1155px; height: 40px; margin-top: -40px; margin-left: 185px; background-color: #01A65A">
-            <div>
-                <img src="images/pro.jpg" style="border-radius: 50px; float:right;margin-right:130px; margin-top: 5px" height="30" class="user-image" alt="User Image ">
-            </div>
+
             <div style="margin-top:15px;margin-right:-90px; float: right; width: 53px;">
-                <span id="username" style="color: white; margin-top: 5px">Tamil</span>
+                <span id="user-name" style="color: white; margin-top: 5px" ng-bind="userDetails.userName">User</span>
             </div>
 
         </div>
@@ -423,17 +421,17 @@
                 <img class="style5" src="images/degree.png" /></span>
                     <div class="WeekRes3">
                         <div class="name2">
-                            <span id="ContentPlaceHolder1_lblweeklyresname2" style="color: Red;" ng-bind="weeklyArray[0].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyresname2" style="color: Red;" ng-bind="weeklyArray[10].name">x</span>
                         </div>
                         <div class="name1">
-                            <span id="ContentPlaceHolder1_lblweeklyresname3" style="color: Red;" ng-bind="weeklyArray[1].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyresname3" style="color: Red;" ng-bind="weeklyArray[9].name">x</span>
 
 
                         </div>
                         <div class="name">
 
-                            <span id="ContentPlaceHolder1_lblweeklyres3" class="lab" ng-bind="weeklyArray[0].level">x</span>
-                            <span id="ContentPlaceHolder1_lblweeklyres2" ng-bind="weeklyArray[1].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres3" class="lab" ng-bind="weeklyArray[10].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres2" ng-bind="weeklyArray[9].level">x</span>
                         </div>
                         <div class="nameRes">
                             <span id="ContentPlaceHolder1_Lblweekres1">RESISTANCE 1</span>
@@ -441,16 +439,16 @@
                     </div>
                     <div class="WeekRes2">
                         <div class="name2">
-                            <span id="ContentPlaceHolder1_lblweeklyresname4" style="color: Red;" ng-bind="weeklyArray[2].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyresname4" style="color: Red;" ng-bind="weeklyArray[12].name">x</span>
                         </div>
                         <div class="name1">
-                            <span id="ContentPlaceHolder1_lblweeklyresname5" style="color: Red;" ng-bind="weeklyArray[3].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyresname5" style="color: Red;" ng-bind="weeklyArray[11].name">x</span>
 
 
                         </div>
                         <div class="name">
-                            <span id="ContentPlaceHolder1_lblweeklyres5" class="lab" ng-bind="weeklyArray[2].level">x</span>
-                            <span id="ContentPlaceHolder1_lblweeklyres4" ng-bind="weeklyArray[3].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres5" class="lab" ng-bind="weeklyArray[12].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres4" ng-bind="weeklyArray[11].level">x</span>
 
                         </div>
                         <div class="nameRes">
@@ -459,15 +457,14 @@
                     </div>
                     <div class="WeekRes1">
                         <div class="name2">
-                            <span id="ContentPlaceHolder1_lblweeklyresname6" style="color: Red;" ng-bind="weeklyArray[4].name">x</span>
-
+                            <span id="ContentPlaceHolder1_lblweeklyresname6" style="color: Red;" ng-bind="weeklyArray[13].name">x</span>
                         </div>
                         <div class="name1">
-                            <span id="ContentPlaceHolder1_lblweeklyresname7" style="color: Red;" ng-bind="weeklyArray[5].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyresname7" style="color: Red;" ng-bind="weeklyArray[14].name">x</span>
                         </div>
                         <div class="name">
-                            <span id="ContentPlaceHolder1_lblweeklyres6" ng-bind="weeklyArray[4].level">x</span>
-                            <span id="ContentPlaceHolder1_lblweeklyres7" class="lab" ng-bind="weeklyArray[5].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres6" ng-bind="weeklyArray[13].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklyres7" class="lab" ng-bind="weeklyArray[14].level">x</span>
                         </div>
                         <div class="nameRes">
                             <span id="ContentPlaceHolder1_lblweekres3">RESISTANCE 3</span>
@@ -483,8 +480,8 @@
                         <div style="float: left; margin-top: -20px; width: 49px; font-size: x-small">
                             <span id="ContentPlaceHolder1_lblweeklypivname" style="color: Red;" ng-bind="weeklyArray[7].name">x</span>
                         </div>
-                        <div style="text-align: center; margin-left: 60px; float: left; width: 57px; border: 2px solid black; height: 16px;">
-                            <span id="ContentPlaceHolder1_lblweeklypiviot" ng-bind="" ng-bind="weeklyArray[7].level">x</span>
+                        <div style="text-align: center; margin-left: 60px; float: left; width: 57px; border: 2px solid black; height: 16px; ">
+                            <span id="ContentPlaceHolder1_lblweeklypiviot" ng-bind="weeklyArray[7].level">x</span>
                         </div>
                         <div style="float: right; width: 49px; margin-top: -20px; text-align: right; margin-top: -40px; font-size: x-small">
                             <span id="ContentPlaceHolder1_lblweeklyresname1" style="color: Red;" ng-bind="weeklyArray[8].name">x</span>
@@ -498,15 +495,15 @@
                     </div>
                     <div class="WeekSupp3">
                         <div class="name2">
-                            <span id="ContentPlaceHolder1_lblweeklysupname7" style="color: Red;" ng-bind="weeklyArray[9].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysupname7" style="color: Red;" ng-bind="weeklyArray[0].name">x</span>
                         </div>
                         <div class="name1">
-                            <span id="ContentPlaceHolder1_lblweeklysupname6" style="color: Red;" ng-bind="weeklyArray[10].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysupname6" style="color: Red;" ng-bind="weeklyArray[1].name">x</span>
                         </div>
                         <div class="name">
-                            <span id="ContentPlaceHolder1_lblweeklysup7" ng-bind="weeklyArray[9].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysup7" ng-bind="weeklyArray[0].level">x</span>
                             <span id="ContentPlaceHolder1_lblweeklysup6"
-                                class="lab" ng-bind="weeklyArray[10].level">x</span>
+                                class="lab" ng-bind="weeklyArray[1].level">x</span>
                         </div>
                         <div class="namesupp">
                             <span id="ContentPlaceHolder1_lblweeksup3">SUPPORT 3</span>
@@ -514,15 +511,15 @@
                     </div>
                     <div class="WeekSupp2">
                         <div class="name1">
-                            <span id="ContentPlaceHolder1_lblweeklysupname4" style="color: Red;" ng-bind="weeklyArray[11].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysupname4" style="color: Red;" ng-bind="weeklyArray[2].name">x</span>
                         </div>
                         <div class="name2">
-                            <span id="ContentPlaceHolder1_lblweeklysupname5" style="color: Red;" ng-bind="weeklyArray[12].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysupname5" style="color: Red;" ng-bind="weeklyArray[3].name">x</span>
                         </div>
                         <div class="name">
-                            <span id="ContentPlaceHolder1_lblweeklysup5" ng-bind="weeklyArray[11].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysup5" ng-bind="weeklyArray[2].level">x</span>
                             <span id="ContentPlaceHolder1_lblweeklysup4"
-                                class="lab" ng-bind="weeklyArray[12].level">x</span>
+                                class="lab" ng-bind="weeklyArray[3].level">x</span>
                         </div>
                         <div class="namesupp">
                             <span id="ContentPlaceHolder1_lblweeksup2">SUPPORT 2</span>
@@ -530,15 +527,15 @@
                     </div>
                     <div class="WeekSupp1">
                         <div class="name1">
-                            <span id="ContentPlaceHolder1_lblweeklysupname2" style="color: Red;" ng-bind="weeklyArray[13].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysupname2" style="color: Red;" ng-bind="weeklyArray[4].name">x</span>
                         </div>
                         <div class="name2">
-                            <span id="ContentPlaceHolder1_lblweeklysupname3" style="color: Red;" ng-bind="weeklyArray[14].name">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysupname3" style="color: Red;" ng-bind="weeklyArray[5].name">x</span>
                         </div>
                         <div class="name">
-                            <span id="ContentPlaceHolder1_lblweeklysup3" ng-bind="weeklyArray[13].level">x</span>
+                            <span id="ContentPlaceHolder1_lblweeklysup3" ng-bind="weeklyArray[4].level">x</span>
                             <span id="ContentPlaceHolder1_lblweeklysup2"
-                                class="lab" ng-bind="weeklyArray[14].level">x</span>
+                                class="lab" ng-bind="weeklyArray[5].level">x</span>
                         </div>
                         <div class="namesupp">
                             <span id="ContentPlaceHolder1_lblweeksup1">SUPPORT 1</span>

@@ -137,6 +137,7 @@ angular.module('demo', ["jqwidgets"])
                 url: '/getUserDetails'
             }).then(function successCallback(response) {
                 $scope.userDetails = response.data;
+                alert($scope.userDetails.userName);
                 $scope.rangeVal.dailyClose=$scope.userDetails.lastSearchedDailyLevel;
                 $scope.rangeVal.weeklyClose=$scope.userDetails.lastSearchedWeeklyLevel;
                 $scope.getdetails($scope.userDetails.lastSearchedDailyLevel, "daily");

@@ -59,21 +59,18 @@ public class DataLoader {
 
     private void loadLevels(final File file, final CrudRepository repo, final boolean isDaily) throws IOException {
         final String content = new String(Files.readAllBytes(file.toPath()));
-        final String[] split1 = content.split("\n");
-        final String[] split2 = split1[0].split("\t");
-        final Double aLong = Double.parseDouble(split2[0]);
-        final Stream<String[]> stream = Arrays.stream(content.split("\n")).map(line -> line.split("\t"));
+        final Stream<String[]> stream = Arrays.stream(content.split("\n")).map(line -> line.split(","));
         if(isDaily){
-            stream.map(split -> new DailyLevel(Double.parseDouble(split[0]),"eng"+split[1],split[1], split[2])).forEach(repo::save);
+            stream.map(split -> new DailyLevel(Double.parseDouble(split[0]),split[1],"", split[2])).forEach(repo::save);
         }else{
-            stream.map(split -> new WeeklyLevel(Double.parseDouble(split[0]),"eng"+split[1],split[1], split[2])).forEach(repo::save);
+            stream.map(split -> new WeeklyLevel(Double.parseDouble(split[0]),split[1],"", split[2])).forEach(repo::save);
         }
     }
 
     private void populateDailyLevelMap() throws IOException {
         List<DailyLevel> dailyLevels = dailyLevelRepo.findAll();
         if (dailyLevels.isEmpty()) {
-            final File file = ResourceUtils.getFile("classpath:config/dl.txt");
+            final File file = ResourceUtils.getFile("classpath:config/dailylvl.txt");
             loadLevels(file,dailyLevelRepo,true);
             dailyLevels = dailyLevelRepo.findAll();
         }
@@ -85,7 +82,7 @@ public class DataLoader {
     private void populateWeeklyLevelMap() throws IOException {
         List<WeeklyLevel> weeklyLevels = weeklyLevelRepo.findAll();
         if (weeklyLevels.isEmpty()) {
-            final File file = ResourceUtils.getFile("classpath:config/dl.txt");
+            final File file = ResourceUtils.getFile("classpath:config/weeklylvl.txt");
             loadLevels(file,weeklyLevelRepo,false);
             weeklyLevels = weeklyLevelRepo.findAll();
         }

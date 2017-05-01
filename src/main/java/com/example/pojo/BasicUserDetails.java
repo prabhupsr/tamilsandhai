@@ -6,6 +6,16 @@ import java.util.Date;
  * @author mchidambaranathan 4/20/2017
  */
 public class BasicUserDetails {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
     private String userName;
     private Double lastSearchedDailyLevel;
     private Double lastSearchedWeeklyLevel;
@@ -15,14 +25,26 @@ public class BasicUserDetails {
 
     @SuppressWarnings("AssignmentToDateFieldFromParameter")
     public BasicUserDetails(
+        final String name,
+        final String userName,
+        final Double lastSearchedDailyLevel,
+        final Double lastSearchedWeeklyLevel,
+        final Date subscriptionEndDate) {
+        this.name = name;
+        this.userName = userName;
+        this.subscriptionEndDate = subscriptionEndDate;
+        this.lastSearchedDailyLevel = lastSearchedDailyLevel;
+        this.lastSearchedWeeklyLevel = lastSearchedWeeklyLevel;
+    }
+    public BasicUserDetails(
+        final String name,
         final String userName,
         final Date subscriptionEndDate,
         final Long phoneNumber,
         final String email) {
+        this.name = name;
         this.userName = userName;
-        this.subscriptionEndDate = subscriptionEndDate;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+        this.subscriptionEndDate = new Date(subscriptionEndDate.getTime());
     }
 
     public Date getSubscriptionEndDate() {

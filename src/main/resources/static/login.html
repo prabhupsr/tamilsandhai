@@ -150,16 +150,24 @@
 <body>
 
 <div class="login-page">
-	<div class="form">
-		<form  action="/register" class="register-form" >
-			<p class="message">Not registered? <a href="#">Create a n account</a></p>
-			<button>create</button>
-			<p class="message">Already registered? <a href="#">Sign In</a></p>
-		</form>
+	<div >
 		<form action="/landingPage" class="login-form">
-			<input name="userName" type="text" id="userName" placeholder="userName"/>
-			<input name="password" type="password" placeholder="password"/>
+			<div>
+				<span> <input name="name" type="text" placeholder="name"/></span>
+				<span> <input name="userName" type="text" id="userName" placeholder="userName"/></span>
+				<span> <input name="password" type="password" placeholder="password"/></span>
+
+			<input name="confirmPassword" type="password" placeholder="confirmPassword"/>
+			<input name="email" type="text" id="email" placeholder="email"/>
+			<input name="phoneNumber" type="number" placeholder="phoneNumber"/>
+			<input name="address" type="text" id="address" placeholder="address"/>
+			<input name="dateOfBirth" type="text" id="dateOfBirth" placeholder="dateOfBirth"/>
+			<input name="birthTime" type="text" placeholder="birthTime"/>
+			<input name="birthStar" type="text" id="birthStar" placeholder="birthStar"/>
+			<input name="birthRaasi" type="text" placeholder="birthRaasi"/>
+
 			<button>login</button>
+			</div>
 			<p class="message">Not registered? <a href="registration.html">Create an account</a></p>
 		</form>
 

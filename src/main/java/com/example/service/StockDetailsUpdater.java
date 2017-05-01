@@ -5,6 +5,7 @@ import com.example.repo.FavRepo;
 import com.example.repo.StockDetailsRepo;
 import com.example.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @author mchidambaranathan 4/21/2017
  */
 @Component
+@EnableScheduling
 public class StockDetailsUpdater {
 
     @Autowired private StockDetailsRepo stockDetailsRepo;
@@ -29,8 +31,7 @@ public class StockDetailsUpdater {
 
     @Scheduled(cron = "0 15 16 ? * MON-FRI")
     private void scheduledNiftyUpdate() {
-        Constants.NIFTY_COMPANY_SYMBOLS.stream().map(s -> getCloseValues(s)).collect(
-            Collectors.toList());
+        stockDetailsRepo.findByType(Constants.NIFTY_STRING).stream().forEach(this::updateStockDetails);
     }
 
     public void updateStockDetails(final StockDetails stockDetails) {

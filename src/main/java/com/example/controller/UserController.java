@@ -39,7 +39,7 @@ public class UserController {
             return userDetailsRepo.findUserExistence(
                 userDetails.getUserName(),
                 userDetails.getPhoneNumber(),
-                userDetails.getEmail()).map(o->"user already exists").orElseGet(() -> {
+                userDetails.getEmail()).map(o -> "user already exists").orElseGet(() -> {
                 userDetailsRepo.findByUserName(userDetails.getUserName());
                 userDetailsRepo.save(userDetails);
                 final List<Favorites> defaultFavList =
@@ -72,11 +72,10 @@ public class UserController {
     @ResponseBody
     public BasicUserDetails getUserDetails(final HttpSession session) {
         final String uName = (String) session.getAttribute(Constants.USER_NAME);
-        return userDetailsRepo.findByUserName(uName).map(o -> new BasicUserDetails(
+        return userDetailsRepo.findByUserName(uName).map(o -> new BasicUserDetails(o.getName(),
             o.getUserName(),
             o.getLastSearchedDailyLevel(),
-            o.getLastSearchedWeeklyLevel())).orElse(new BasicUserDetails());
-
+            o.getLastSearchedWeeklyLevel(), o.getSubscriptionEndDate())).orElse(new BasicUserDetails());
     }
 
     @RequestMapping(value = "getLoginLog", method = RequestMethod.GET, produces = {"application/json"})
@@ -101,7 +100,8 @@ public class UserController {
         return userDetailsRepo.findAll()
             .stream()
             .filter(o -> !o.getAdmin())
-            .map(o -> new BasicUserDetails(o.getUserName(),
+            .map(o -> new BasicUserDetails(o.getName(),
+                o.getUserName(),
                 o.getSubscriptionEndDate(),
                 o.getPhoneNumber(),
                 o.getEmail()))
@@ -109,15 +109,15 @@ public class UserController {
 
     }
 
-
     @RequestMapping(value = "/admin/enableSubscription", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseBody
-    public String enableSubscription(@RequestParam("name") final String name,@RequestParam("days")
+    public String enableSubscription(
+        @RequestParam("name") final String name, @RequestParam("days")
     final Integer days) {
 
-        userDetailsRepo.findByUserName(name).ifPresent(o->{
+        userDetailsRepo.findByUserName(name).ifPresent(o -> {
             final Calendar instance = Calendar.getInstance();
-            instance.add(Calendar.DATE,days);
+            instance.add(Calendar.DATE, days);
             o.setSubscriptionEndDate(instance.getTime());
             userDetailsRepo.save(o);
         });

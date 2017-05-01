@@ -77,10 +77,10 @@ public class PersonController {
         final NavigableMap<Double, ? extends Levels> map,
         final List<Double> doubles) {
         final Double rangeMappedKey = map.floorKey(range);
-        final int numberOfValuesBefore = (Objects.equals(rangeMappedKey, range)) ? 9 : 8;
+        final int numberOfValuesBefore = (Objects.equals(rangeMappedKey, range)) ? 8 : 7;
         final int indexOfRangeKey = doubles.indexOf(rangeMappedKey);
         final List<Double> longs = doubles.subList(
-            indexOfRangeKey - numberOfValuesBefore, indexOfRangeKey + 7);
+            indexOfRangeKey - numberOfValuesBefore, indexOfRangeKey + 8);
         final Stream<? extends Levels> stream = longs.stream()
             .filter(aLong -> !aLong.equals(range))
             .map(map::get);
