@@ -1,6 +1,5 @@
 package com.example.repo;
 
-import com.example.model.DailyLevel;
 import com.example.model.UserDetails;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -18,6 +17,9 @@ public interface UserDetailsRepo extends CrudRepository<UserDetails, Long> {
 
     @Query("SELECT t FROM UserDetails t where t.userName = :name")
     Optional<UserDetails> findByUserName(@Param("name") String name);
+
+    @Query("SELECT t FROM UserDetails t where t.userName = :name or t.email= :name or t.phoneNumber = :phoneNumber")
+    Optional<UserDetails> findByDetails(@Param("name") String name,@Param("phoneNumber") Long phoneNumber);
 
     @Query("SELECT t FROM UserDetails t where t.userName = :name or t.phoneNumber = :phoneNumber or t.email = :email")
     Optional<UserDetails> findUserExistence(@Param("name") String name,@Param("phoneNumber") Long phoneNumber,@Param("email") String email);

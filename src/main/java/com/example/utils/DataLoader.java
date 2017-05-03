@@ -13,14 +13,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.example.utils.Constants.NIFTY_COMPANY_NAMES;
-import static com.example.utils.Constants.NIFTY_COMPANY_SYMBOLS;
-import static com.example.utils.Constants.NIFTY_STRING;
+import static com.example.utils.Constants.*;
 
 /**
  * @author mchidambaranathan 4/17/2017
@@ -51,10 +48,10 @@ public class DataLoader {
         this.stockDetailsUpdater = stockDetailsUpdater;
         populateDailyLevelMap();
         populateWeeklyLevelMap();
-        populateDefaultUsers();
-        populateFavorites();
+        //populateDefaultUsers();
+        //populateFavorites();
         populateStockDetails();
-        populateNiftyStockUpdates();
+        //populateNiftyStockUpdates();
     }
 
     private void loadLevels(final File file, final CrudRepository repo, final boolean isDaily) throws IOException {
@@ -103,6 +100,9 @@ public class DataLoader {
     }
 
     private void populateStockDetails() {
+        if (!stockDetailsRepo.findAll().isEmpty()) {
+            return;
+        }
         IntStream.range(0, NIFTY_COMPANY_SYMBOLS.size()).forEach(i -> {
             System.out.println(i);
             stockDetailsRepo.save(new StockDetails(NIFTY_COMPANY_NAMES.get(i), NIFTY_COMPANY_SYMBOLS.get(i),

@@ -14,15 +14,7 @@ public class Favorites {
     private Long id;
     private String name;
     private String symbol;
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(final String symbol) {
-        this.symbol = symbol;
-    }
-
+    private Integer pos;
     private Double dailyClose;
     private Double weeklyClose;
     private String oldName;
@@ -30,13 +22,28 @@ public class Favorites {
 
     public Favorites() {
     }
-
     public Favorites(final Double dailyClose, final Double weeklyClose, final String name,  final String symbol,final String userId) {
         this.dailyClose = dailyClose;
         this.weeklyClose = weeklyClose;
         this.name = name;
         this.userId = userId;
         this.symbol=symbol;
+    }
+
+    public Integer getPos() {
+        return pos;
+    }
+
+    public void setPos(final Integer pos) {
+        this.pos = pos;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(final String symbol) {
+        this.symbol = symbol;
     }
 
     public Long getId() {

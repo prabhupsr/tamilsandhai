@@ -28,10 +28,10 @@ $(document).ready(function() {
                 data: JSON.stringify(data),
                 async: false,
                 success: function (data, status, jqXHR) {
-                    $("#registrationResult").text(data);
-                    console.log(data);
+                    $("#registrationResult").text(data.message);
                 },
                 error: function (jqXHR, status) {
+                    alert("error");
                     // error handler
                 }
             });

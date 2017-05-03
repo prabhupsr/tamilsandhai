@@ -4,6 +4,7 @@ import com.example.model.Favorites;
 import com.example.model.UserDetails;
 import com.example.model.UserLoginActivityLog;
 import com.example.pojo.BasicUserDetails;
+import com.example.pojo.MessageUpdater;
 import com.example.repo.FavRepo;
 import com.example.repo.StockDetailsRepo;
 import com.example.repo.UserDetailsRepo;
@@ -34,12 +35,12 @@ public class UserController {
 
     @RequestMapping(value = "saveUser", method = RequestMethod.POST, produces = {"application/json"})
     @ResponseBody
-    public String saveUser(@RequestBody final UserDetails userDetails, final Model model) {
+    public MessageUpdater saveUser(@RequestBody final UserDetails userDetails, final Model model) {
         try {
             return userDetailsRepo.findUserExistence(
                 userDetails.getUserName(),
                 userDetails.getPhoneNumber(),
-                userDetails.getEmail()).map(o -> "user already exists").orElseGet(() -> {
+                userDetails.getEmail()).map(o -> new MessageUpdater("user already exists")).orElseGet(() -> {
                 userDetailsRepo.findByUserName(userDetails.getUserName());
                 userDetailsRepo.save(userDetails);
                 final List<Favorites> defaultFavList =
@@ -50,10 +51,10 @@ public class UserController {
                         sd.getSymbol(),
                         userDetails.getUserName())).collect(Collectors.toList());
                 favRepo.save(defaultFavList);
-                return "Sucessfully Registered";
+                return new MessageUpdater("User Successfully Registered");
             });
         } catch (final Exception e) {
-            return "Invalid Data provided";
+            return new MessageUpdater("Invalid Data provided");
         }
     }
 

@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.model.UserDetails;
 import com.example.model.UserLoginActivityLog;
-import com.example.pojo.LoginValidator;
+import com.example.pojo.MessageUpdater;
 import com.example.repo.UserDetailsRepo;
 import com.example.repo.UserLoginActivityLogRepo;
 import com.example.utils.Constants;
@@ -41,7 +41,8 @@ public class HomePageController {
     @ResponseBody
     public ImmutableMap<String, Long> getMemoryDetails() {
         final Runtime runtime = Runtime.getRuntime();
-        return ImmutableMap.of("freeMemory",
+        return ImmutableMap.of(
+            "freeMemory",
             runtime.freeMemory() / (1024 * 1024),
             "Max memory",
             runtime.maxMemory() / (1024 * 1024),
@@ -51,39 +52,53 @@ public class HomePageController {
 
     @RequestMapping(value = "/landingPage", method = RequestMethod.POST, produces = {"application/json"})
     @ResponseBody
-    public LoginValidator getlogin(
+    public MessageUpdater getlogin(
         @RequestBody final UserDetails userDetails,
         final HttpSession session) {
-        final Optional<UserDetails> byUserName = userDetailsRepo.findByUserName(userDetails.getUserName())
+        final Optional<UserDetails> byUserName = userDetailsRepo.findByDetails(
+            userDetails.getUserName(),
+            getPhoneNumberForValidation(userDetails.getUserName()))
             .filter(o -> Optional.ofNullable(userDetails.getPassword())
                 .filter(o.getPassword()::equals).isPresent());
+
         if (byUserName.isPresent() && byUserName.get().getAdmin()) {
-            session.setAttribute(Constants.USER_NAME, userDetails.getUserName());
-            return new LoginValidator("lgn.html", "");
+            session.setAttribute(Constants.USER_NAME, byUserName.get().getUserName());
+            return new MessageUpdater("lgn.html", "");
         }
-        final Optional<LoginValidator> loginValidator = byUserName.filter(ud -> new Date().getTime()
+        final Optional<MessageUpdater> loginValidator = byUserName.filter(ud -> new Date().getTime()
             <= ud.getSubscriptionEndDate()
             .getTime())
-            .map(o -> new LoginValidator("newLandingPage.html", ""));
+            .map(o -> new MessageUpdater("newLandingPage.html", ""));
 
         loginValidator.ifPresent(obj -> {
-            session.setAttribute(Constants.USER_NAME, userDetails.getUserName());
+            session.setAttribute(Constants.USER_NAME, byUserName.get().getUserName());
             byUserName.map(o -> new UserLoginActivityLog(
                 o.getUserId(),
                 o.getUserName(),
                 Constants.USER_LOGGED_IN)).ifPresent(userLoginActivityLogRepo::save);
         });
-        return loginValidator.orElseGet(() -> new LoginValidator("newHomePage.html",
+        return loginValidator.orElseGet(() -> new MessageUpdater(
+            "newHomePage.html",
             "Username and Password are not valid"));
     }
 
-    @RequestMapping("/logout")
-    public String logOut(final HttpSession session) {
+    @RequestMapping(value = "/logout", produces = {"application/json"})
+    @ResponseBody
+    public UserDetails logOut(final HttpSession session) {
         final String attribute = (String) session.getAttribute(Constants.USER_NAME);
         userDetailsRepo.findByUserName(attribute).map(o -> new UserLoginActivityLog(o.getUserId(), o.getUserName(),
             Constants.USER_LOGGED_OUT)).ifPresent(userLoginActivityLogRepo::save);
         session.invalidate();
-        return "homepge.html";
+        return new UserDetails();
+    }
+
+    private Long getPhoneNumberForValidation(final String userName) {
+        try {
+            return Long.valueOf(userName);
+        } catch (final NumberFormatException ex) {
+            return 0L;
+        }
+
     }
 
 }

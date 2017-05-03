@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.Favorites;
+import com.example.pojo.MessageUpdater;
 import com.example.repo.FavRepo;
 import com.example.repo.UserLoginActivityLogRepo;
 import com.example.utils.Constants;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author mchidambaranathan 4/19/2017
@@ -25,25 +25,19 @@ public class FavoriteController {
     @Autowired private UserLoginActivityLogRepo userLoginActivityLogRepo;
 
     @RequestMapping(value = "updateFav", method = RequestMethod.POST, produces = {"application/json"})
-    public String updateFavorites(@RequestBody final Favorites favorites, final HttpSession session) {
+    public MessageUpdater updateFavorites(@RequestBody final Favorites favorites, final HttpSession session) {
         final String uName = (String) session.getAttribute(Constants.USER_NAME);
         userLoginActivityLogRepo.findLatestByUserName(uName).map(o -> {
             o.setLastActivityTime(new Date());
             return o;
         }).ifPresent(userLoginActivityLogRepo::save);
-        final Optional<Favorites> byUserName = favRepo.findByName(favorites.getOldName());
-        if (byUserName.isPresent()) {
-            final Favorites favorites1 = byUserName.get();
-            favorites1.setName(favorites.getName());
-            favorites1.setDailyClose(favorites.getDailyClose());
-            favorites1.setWeeklyClose(favorites.getWeeklyClose());
-            favorites1.setOldName(favorites.getOldName());
-            favRepo.save(favorites1);
-        } else {
-            favorites.setUserId(uName);
-            favRepo.save(favorites);
-        }
-        return "abc";
+        final Favorites availFavorites = favRepo.findByUserId(uName).get(favorites.getPos());
+        availFavorites.setName(favorites.getName());
+        availFavorites.setDailyClose(favorites.getDailyClose());
+        availFavorites.setWeeklyClose(favorites.getWeeklyClose());
+        availFavorites.setOldName(favorites.getOldName());
+        favRepo.save(availFavorites);
+        return new MessageUpdater("Favorites Successfully Updated");
     }
 
     @RequestMapping(value = "getFavorites", method = RequestMethod.GET, produces = {"application/json"})

@@ -39,7 +39,9 @@ public class PersonController {
         @PathVariable("range") final Double range,
         @PathVariable("type") final String type, final HttpSession session) throws
         IOException {
-        if(!Optional.ofNullable(range).filter(d ->d>10).isPresent()){return Collections.emptyList(); }
+        if (!Optional.ofNullable(range).filter(d -> d > 10).isPresent()) {
+            return Collections.emptyList();
+        }
         final String uName = (String) session.getAttribute(Constants.USER_NAME);
         final boolean isDaily = "daily".equals(type);
         final Optional<UserDetails> userDetails;
@@ -77,15 +79,20 @@ public class PersonController {
         final NavigableMap<Double, ? extends Levels> map,
         final List<Double> doubles) {
         final Double rangeMappedKey = map.floorKey(range);
-        final int numberOfValuesBefore = (Objects.equals(rangeMappedKey, range)) ? 8 : 7;
+        //final int numberOfValuesBefore = (Objects.equals(rangeMappedKey, range)) ? 8 : 7;
         final int indexOfRangeKey = doubles.indexOf(rangeMappedKey);
         final List<Double> longs = doubles.subList(
-            indexOfRangeKey - numberOfValuesBefore, indexOfRangeKey + 8);
+            indexOfRangeKey - 7, indexOfRangeKey + 8);
         final Stream<? extends Levels> stream = longs.stream()
-            .filter(aLong -> !aLong.equals(range))
             .map(map::get);
-        return (isLangTamil) ? stream.map(dl -> new Levels(dl.getLevel(), dl.getTamilName(), dl.getMcl()))
-            .collect(Collectors.toList()) : stream.map(dl -> new Levels(dl.getLevel(), dl.getName(), dl.getMcl()))
+        return (isLangTamil) ? stream.map(dl -> new Levels(
+            dl.getLevel(),
+            ("1\r".equals(dl.getMcl()) ? "Mcl".concat(dl.getTamilName().substring(0, 3)) : dl.getTamilName()),
+            dl.getMcl()))
+            .collect(Collectors.toList()) : stream.map(dl -> new Levels(
+            dl.getLevel(),
+            ("1\r".equals(dl.getMcl()) ? "Mcl".concat(dl.getName().substring(0, 3)) : dl.getName()),
+            dl.getMcl()))
             .collect(Collectors.toList());
     }
 

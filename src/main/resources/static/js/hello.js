@@ -137,7 +137,6 @@ angular.module('demo', ["jqwidgets"])
                 url: '/getUserDetails'
             }).then(function successCallback(response) {
                 $scope.userDetails = response.data;
-                alert($scope.userDetails.userName);
                 $scope.rangeVal.dailyClose=$scope.userDetails.lastSearchedDailyLevel;
                 $scope.rangeVal.weeklyClose=$scope.userDetails.lastSearchedWeeklyLevel;
                 $scope.getdetails($scope.userDetails.lastSearchedDailyLevel, "daily");
@@ -145,6 +144,19 @@ angular.module('demo', ["jqwidgets"])
             }, function errorCallback(response) {
                 console.log(response.statusText);
             });
+        }
+
+        $scope.logoutUser = function () {
+            $http({
+                method: 'GET',
+                dataType: "jsonp",
+                url: '/logout'
+            }).then(function successCallback(response) {
+
+            }, function errorCallback(response) {
+                console.log(response.statusText);
+            });
+            window.location.href = "newHomePage.html";
         }
         //private String userName;
         $scope.getBasicUserDetails();
@@ -230,10 +242,10 @@ angular.module('demo', ["jqwidgets"])
             // events
             var rowValues = "";
             $("#favGrid").on('cellendedit', function (event) {
-                console.log("rowwww   " + roww[0]);
                 if (event.args.datafield === "name") {
                     tempfav[event.args.rowindex].name = event.args.value;
                     tempfav[event.args.rowindex].oldName = event.args.oldvalue;
+                    tempfav[event.args.rowindex].pos = event.args.rowindex;
                     favData[event.args.rowindex].name=event.args.value;
                 }
                 else if (event.args.datafield === "dailyClose") {
@@ -246,7 +258,7 @@ angular.module('demo', ["jqwidgets"])
                 }
                 console.log(JSON.stringify(tempfav[event.args.rowindex]));
 
-                if (Object.keys(tempfav[event.args.rowindex]).length == 4) {
+                if (Object.keys(tempfav[event.args.rowindex]).length == 5) {
                     console.log("updating data");
 
                     jQuery.ajax({

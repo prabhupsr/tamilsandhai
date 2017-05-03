@@ -3,17 +3,29 @@ package com.example.pojo;
 /**
  * @author mchidambaranathan 4/30/2017
  */
-public class LoginValidator {
+public class MessageUpdater {
     private String pageName;
     private String errorText="";
+    private String message;
 
-    public LoginValidator() {
+    public MessageUpdater(final String message) {
+        this.message = message;
     }
 
+    public MessageUpdater() {
+    }
 
-    public LoginValidator(final String pageName, final String errorText) {
+    public MessageUpdater(final String pageName, final String errorText) {
         this.pageName = pageName;
         this.errorText = errorText;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(final String message) {
+        this.message = message;
     }
 
     public String getPageName() {

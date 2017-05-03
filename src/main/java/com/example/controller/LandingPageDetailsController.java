@@ -9,13 +9,19 @@ import com.example.service.StockDetailsUpdater;
 import com.example.utils.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -91,7 +97,7 @@ public class LandingPageDetailsController {
         sunRaiseDetails.setSunSet(df.format(sunsetToday.getTime()));
         sunRaiseDetails.setTodaysDate(timeFormat.format(sunsetToday.getTime()));
         sunRaiseDetails.setTodaysDay(Constants.DAY_TO_SYMBOL_MAPPING.get(today));
-        IntStream.range(0, 16).forEach(v -> {
+        IntStream.range(0, 17).forEach(v -> {
             final SunsetSunRaiseDetails o = new SunsetSunRaiseDetails();
             o.setDay(dayOfWeek.get(v % 7));
             o.setStartTime(df.format(sunriseToday.getTime()));
