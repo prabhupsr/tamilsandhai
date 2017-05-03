@@ -94,7 +94,7 @@ angular.module('demo', ["jqwidgets"])
             $http({
                 method: 'GET',
                 dataType: "jsonp",
-                url: '/getRange/type/' + type + '/range/' + range
+                url: '/getRange/type/' + type + '/range/' + range + '/calculate'
             }).then(function successCallback(response) {
                 console.log(response.data);
                 if (type == "daily") {
@@ -276,8 +276,8 @@ angular.module('demo', ["jqwidgets"])
                         }
                     });
                     $scope.selectedStock=tempfav[event.args.rowindex].name;
-                    $scope.rangeVal.dailyClose=parseInt(tempfav[event.args.rowindex].dailyClose);
-                    $scope.rangeVal.weeklyClose=parseInt(tempfav[event.args.rowindex].weeklyClose);
+                    $scope.rangeVal.dailyClose = parseFloat(tempfav[event.args.rowindex].dailyClose);
+                    $scope.rangeVal.weeklyClose = parseFloat(tempfav[event.args.rowindex].weeklyClose);
                     $scope.getdetails(tempfav[event.args.rowindex].dailyClose,"daily");
                     $scope.getdetails(tempfav[event.args.rowindex].weeklyClose,"weekly");
                     $("#favGrid").jqxGrid('updatebounddata', 'cells');

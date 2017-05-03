@@ -32,7 +32,7 @@ public class PersonController {
     @Autowired private UserDetailsRepo userDetailsRepo;
     @Autowired private UserLoginActivityLogRepo userLoginActivityLogRepo;
 
-    @RequestMapping(value = "getRange/type/{type}/range/{range}",
+    @RequestMapping(value = "getRange/type/{type}/range/{range}/calculate",
         method = RequestMethod.GET,
         produces = {"application/json"})
     public List<Levels> getDailyRangeValues(
