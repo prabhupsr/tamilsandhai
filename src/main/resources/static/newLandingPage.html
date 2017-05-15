@@ -428,9 +428,9 @@
                 <div style="float: left; font-size: x-small; margin-left: -890px; margin-top: 0px; width: 700px;">
                         <span id="dropDownNifty">
                             <select ng-model="selectedNiftyStock"
-                                    ng-options="niftyStock.name for niftyStock in niftyDetails track by niftyStock.symbol"
+                                    ng-options="niftyStock.symbol for niftyStock in niftyDetails track by niftyStock.symbol"
                                     ng-change="updateDailyAndWeeklyLevels()">
-                                <option value="">Select Nifty Stock.....</option>
+                                <option value="">Select Stock or Commodity...</option>
                             </select>
                         </span>
                     <span id="ContentPlaceHolder1_Label8">WeeklyClose</span>

@@ -3,6 +3,7 @@ package com.example.utils;
 import com.example.model.*;
 import com.example.repo.*;
 import com.example.service.StockDetailsUpdater;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -46,6 +47,8 @@ public class DataLoader {
         this.favRepo=favRepo;
         this.stockDetailsRepo = stockDetailsRepo;
         this.stockDetailsUpdater = stockDetailsUpdater;
+        populateNifty50StockDetails();
+        pupulateMCXData();
         populateDailyLevelMap();
         populateWeeklyLevelMap();
         //populateDefaultUsers();
@@ -99,6 +102,20 @@ public class DataLoader {
         userDetailsRepo.save(new UserDetails("pra","123456",true,"english",99989L,"abdc@gm.com"));
     }
 
+    private void pupulateMCXData() {
+        if (!stockDetailsRepo.findByType(Constants.MCX_STRING).isEmpty()) {
+            return;
+        }
+        stockDetailsUpdater.getMCXCloseValues().ifPresent(o -> o.forEach(o1 -> {
+            final JSONObject o11 = (JSONObject) o1;
+            stockDetailsRepo.save(new StockDetails(
+                "",
+                o11.getString("Symbol"),
+                Constants.MCX_STRING,
+                o11.getDouble("LTP")));
+        }));
+    }
+
     private void populateStockDetails() {
         if (!stockDetailsRepo.findAll().isEmpty()) {
             return;
@@ -106,6 +123,17 @@ public class DataLoader {
         IntStream.range(0, NIFTY_COMPANY_SYMBOLS.size()).forEach(i -> {
             System.out.println(i);
             stockDetailsRepo.save(new StockDetails(NIFTY_COMPANY_NAMES.get(i), NIFTY_COMPANY_SYMBOLS.get(i),
+                NIFTY_STRING));
+        });
+    }
+
+    private void populateNifty50StockDetails() {
+        if (stockDetailsRepo.findByType(NIFTY_STRING).size() >= 99) {
+            return;
+        }
+        IntStream.range(0, NIFTY_50_SYMBOLS.size()).forEach(i -> {
+            System.out.println(i);
+            stockDetailsRepo.save(new StockDetails("", NIFTY_50_SYMBOLS.get(i),
                 NIFTY_STRING));
         });
     }

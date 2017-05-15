@@ -24,7 +24,7 @@ import static com.example.utils.Constants.*;
  * @author mchidambaranathan 4/16/2017
  */
 @RestController
-public class PersonController {
+public class RangeController {
 
     @Autowired
     private DailyLevelRepo dailyLevelRepo;

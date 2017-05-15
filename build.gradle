@@ -38,9 +38,10 @@ dependencies {
 	compile("com.luckycatlabs:SunriseSunsetCalculator:1.1")
 	compile group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'
 
+	// https://mvnrepository.com/artifact/org.json/json
+	compile group: 'org.json', name: 'json', version: '20160810'
 
-
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	//providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.2.RELEASE'
 
 	// https://mvnrepository.com/artifact/com.google.guava/guava

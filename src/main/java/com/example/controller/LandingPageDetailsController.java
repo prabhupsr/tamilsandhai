@@ -41,10 +41,23 @@ public class LandingPageDetailsController {
         return stockDetailsRepo.findByType(Constants.NIFTY_STRING);
     }
 
+    @RequestMapping(value = "/updateMCXStocks", method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
+    public List<StockDetails> updateMCXStocks() {
+        stockDetailsUpdater.scheduledMCXUpdate();
+        return stockDetailsRepo.findByType(Constants.MCX_STRING);
+    }
+
     @RequestMapping(value = "/findNiftyStocks", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseBody
     public List<StockDetails> findNiftyStocks() {
         return stockDetailsRepo.findByType(Constants.NIFTY_STRING);
+    }
+
+    @RequestMapping(value = "/findStocksAndCommodities", method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
+    public List<StockDetails> findStocksAndCommodities() {
+        return stockDetailsRepo.findAll();
     }
 
     @SuppressWarnings("SimpleDateFormatWithoutLocale")

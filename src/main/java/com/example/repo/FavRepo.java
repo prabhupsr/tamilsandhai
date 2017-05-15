@@ -1,7 +1,6 @@
 package com.example.repo;
 
 import com.example.model.Favorites;
-import com.example.model.UserDetails;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -26,8 +25,12 @@ public interface FavRepo extends CrudRepository<Favorites, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Favorites t  SET t.dailyClose = :closeValue WHERE t.symbol = :symbol")
-    Integer updateBySymbol(@Param("symbol") String symbol,@Param("closeValue") Double closeValue);
+    @Query("UPDATE Favorites t  SET t.dailyClose = :closeValue,t.weeklyClose=:weeklyCloseValue WHERE t.symbol = "
+        + ":symbol")
+    Integer updateBySymbol(
+        @Param("symbol") String symbol,
+        @Param("closeValue") Double closeValue,
+        @Param("weeklyCloseValue") Double weeklyCloseValue);
 
     @Override
     List<Favorites> findAll();

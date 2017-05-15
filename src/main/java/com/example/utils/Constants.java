@@ -3,7 +3,6 @@ package com.example.utils;
 import com.example.model.DailyLevel;
 import com.example.model.WeeklyLevel;
 import com.example.pojo.SunRaiseDetails;
-import com.example.pojo.SunsetSunRaiseDetails;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.*;
@@ -25,9 +24,13 @@ public interface Constants {
     NavigableMap<Double, WeeklyLevel> WEEKLY_LEVELS_MAP = new TreeMap<>();
 
     String NIFTY_STRING = "NIFTY";
+    String MCX_STRING = "MCX";
 
     String NIFTY_BASE_URL =
         "https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=";
+
+    String MCX_BASE_URL =
+        "https://www.mcxindia.com/en/market-data/get-quote/COPPERM";
 
     List<String> DAYS_OF_WEEK = of(
         "SUN",
@@ -43,7 +46,61 @@ public interface Constants {
     String SUNSET_SUNRAISE_URL = "http://api.sunrise-sunset.org/json?lat=19.0759837&lng=72.8776559&formatted=0&date=";
 
     Map<Integer, SunRaiseDetails> SUN_RAISE_DETAILS_MAP = new HashMap<>();
-    final List<String> NIFTY_COMPANY_SYMBOLS = of(
+    List<String> NIFTY_50_SYMBOLS = of(
+        "HINDALCO",
+        "IOC",
+        "TATASTEEL",
+        "INFRATEL",
+        "TECHM",
+        "HCLTECH",
+        "TATAMTRDVR",
+        "TATAMOTORS",
+        "BAJAJ-AUTO",
+        "ADANIPORTS",
+        "RELIANCE",
+        "ONGC",
+        "EICHERMOT",
+        "ITC",
+        "BPCL",
+        "HDFCBANK",
+        "M&M",
+        "HDFC",
+        "ASIANPAINT",
+        "AXISBANK",
+        "KOTAKBANK",
+        "ULTRACEMCO",
+        "TCS",
+        "WIPRO",
+        "GAIL",
+        "MARUTI",
+        "TATAPOWER",
+        "INFY",
+        "NTPC",
+        "DRREDDY",
+        "ACC",
+        "LT",
+        "INDUSINDBK",
+        "BOSCHLTD",
+        "HINDUNILVR",
+        "GRASIM",
+        "ZEEL",
+        "LUPIN",
+        "COALINDIA",
+        "BHARTIARTL",
+        "CIPLA",
+        "POWERGRID",
+        "SUNPHARMA",
+        "SBIN",
+        "AMBUJACEM",
+        "YESBANK",
+        "ICICIBANK",
+        "HEROMOTOCO",
+        "AUROPHARMA",
+        "IBULHSGFIN",
+        "BANKBARODA").collect(
+
+        Collectors.toList());
+    List<String> NIFTY_COMPANY_SYMBOLS = of(
         "ABB",
         "ASHOKLEY",
         "BAJFINANCE",
@@ -96,7 +153,7 @@ public interface Constants {
         "VEDL").collect(
         Collectors.toList());
 
-    final List<String> NIFTY_COMPANY_NAMES = of(
+    List<String> NIFTY_COMPANY_NAMES = of(
         "ABB India Ltd.",
         "Ashok Leyland Ltd.",
         "Bajaj Finance Ltd.",

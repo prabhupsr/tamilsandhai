@@ -21,14 +21,6 @@ public class StockDetails {
     private String type;
     private Date lastUpdated;
 
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(final Date lastUpdated) {
-        this.lastUpdated =new Date(lastUpdated.getTime());
-    }
-
     public StockDetails() {
     }
 
@@ -36,7 +28,23 @@ public class StockDetails {
         this.name = name;
         this.symbol = symbol;
         this.type = type;
+        this.lastUpdated = Calendar.getInstance().getTime();
+    }
+
+    public StockDetails(final String name, final String symbol, final String type, final Double dailyClose) {
+        this.name = name;
+        this.symbol = symbol;
+        this.type = type;
+        this.dailyClose = dailyClose;
         this.lastUpdated= Calendar.getInstance().getTime();
+    }
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(final Date lastUpdated) {
+        this.lastUpdated = new Date(lastUpdated.getTime());
     }
 
     public Long getId() {

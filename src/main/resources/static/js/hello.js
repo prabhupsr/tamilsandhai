@@ -39,7 +39,7 @@ angular.module('demo', ["jqwidgets"])
         $http({
             method: 'GET',
             dataType: "jsonp",
-            url: '/findNiftyStocks'
+            url: '/findStocksAndCommodities'
         }).then(function successCallback(response) {
             console.log(response.data);
             $scope.niftyDetails = response.data;
@@ -206,7 +206,7 @@ angular.module('demo', ["jqwidgets"])
                     commit(true);
                 },
                 datafields: [
-                    {name: 'name', type: 'string'},
+                    {name: 'symbol', type: 'string'},
                     {name: 'dailyClose', type: 'number'},
                     {name: 'weeklyClose', type: 'number'}
                 ]
@@ -224,7 +224,7 @@ angular.module('demo', ["jqwidgets"])
                     selectionmode: 'singlerow',
                     editmode: 'selectedrow',
                     columns: [
-                        {text: 'Symbol', columntype: 'textbox', datafield: 'name', width: 120},
+                        {text: 'Symbol', columntype: 'textbox', datafield: 'symbol', width: 120},
                         {text: 'daily', datafield: 'dailyClose', columntype: 'textbox', width: 60},
                         {text: 'weekly', columntype: 'textbox', datafield: 'weeklyClose', width: 60}
                     ]
